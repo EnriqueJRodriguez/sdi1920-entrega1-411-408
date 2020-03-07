@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: asuka
+Build-Jdk: 13.0.2
+Implementation-Title: sdi1920-entrega1-411-408
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.uniovi
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/sdi1920-entrega1-411-408
+Created-By: Maven Integration for Eclipse
+
