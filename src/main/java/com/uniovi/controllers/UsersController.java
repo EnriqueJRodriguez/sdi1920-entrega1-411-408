@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.uniovi.entities.User;
+import com.uniovi.services.SecurityService;
 import com.uniovi.services.UsersService;
 
 @Controller
@@ -17,6 +18,9 @@ public class UsersController {
 
 	@Autowired
 	private UsersService usersService;
+	
+	@Autowired
+	private SecurityService securityService;
 
 	@RequestMapping(value = "/user/add")
 	public String getUser(Model model) {
@@ -44,7 +48,7 @@ public class UsersController {
 //		}
 //		user.setRole(rolesService.getRoles()[0]);
 		usersService.addUser(user);
-//		securityService.autoLogin(user.getDni(), user.getPasswordConfirm());
+		securityService.autoLogin(user.getEmail(), user.getPasswordConfirm());
 		return "redirect:home";
 	}
 
