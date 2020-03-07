@@ -6,37 +6,31 @@ import javax.persistence.*;
 
 @Entity
 public class User {
-	
+
 	@Id
 	@GeneratedValue
 	private long id;
-	
+
 	@Column(unique = true)
 	private String email;
-	
+
 	private String name;
 	private String lastName;
-	
+
 	@ManyToMany
-	@JoinTable(name="friends",
-	 joinColumns=@JoinColumn(name="userId"),
-	 inverseJoinColumns=@JoinColumn(name="friendId")
-	)
+	@JoinTable(name = "friends", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "friendId"))
 	private List<User> friends;
 
 	@ManyToMany
-	@JoinTable(name="friends",
-	 joinColumns=@JoinColumn(name="friendId"),
-	 inverseJoinColumns=@JoinColumn(name="userId")
-	)
+	@JoinTable(name = "friends", joinColumns = @JoinColumn(name = "friendId"), inverseJoinColumns = @JoinColumn(name = "userId"))
 	private List<User> friendOf;
-	
+
 	private String role;
-	
+
 	private String password;
 	@Transient
 	private String passwordConfirm;
-	
+
 	public User(String email, String name, String lastName) {
 		super();
 		this.email = email;
@@ -103,6 +97,5 @@ public class User {
 	public void setPasswordConfirm(String passwordConfirm) {
 		this.passwordConfirm = passwordConfirm;
 	}
-	
-	
+
 }

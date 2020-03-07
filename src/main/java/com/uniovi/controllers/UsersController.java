@@ -17,10 +17,10 @@ public class UsersController {
 
 	@Autowired
 	private UsersService usersService;
-	
+
 	@RequestMapping(value = "/user/add")
 	public String getUser(Model model) {
-		//model.addAttribute("rolesList", rolesService.getRoles());
+		// model.addAttribute("rolesList", rolesService.getRoles());
 		return "user/add";
 	}
 
@@ -29,13 +29,13 @@ public class UsersController {
 		usersService.addUser(user);
 		return "redirect:home";
 	}
-	
+
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup(Model model) {
 		model.addAttribute("user", new User());
 		return "signup";
 	}
-	
+
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public String signup(@Validated User user, BindingResult result) {
 //		signUpFormValidator.validate(user, result);

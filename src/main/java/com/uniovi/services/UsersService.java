@@ -11,7 +11,7 @@ import com.uniovi.repositories.UsersRepository;
 
 @Service
 public class UsersService {
-	
+
 	@Autowired
 	private UsersRepository usersRepository;
 
@@ -26,7 +26,7 @@ public class UsersService {
 	}
 
 	public void addUser(User user) {
-		//user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		// user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		usersRepository.save(user);
 	}
 
