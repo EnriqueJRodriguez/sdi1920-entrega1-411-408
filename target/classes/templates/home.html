@@ -4,10 +4,10 @@
 <body>
 	<nav th:replace="fragments/nav" />
 	<div class="container" style="text-align: center">
-		<h1 th:text="#{welcome.message}"></h2>
-		<h2>Esta es una zona privada de la web</h3>
+		<h1 th:text="#{welcome.message}"></h1>
+		<h2>Página de inicio</h2>
 		<p>
-			Usuario Autenticado como : 
+			Estás registrado con éste email: 
 			<span sec:authentication="principal.username" th:inline="text"> </span>
 		</p>
 	</div>
