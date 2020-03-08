@@ -2,6 +2,7 @@ package com.uniovi.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,6 +16,9 @@ public class UsersService {
 
 	@Autowired
 	private UsersRepository usersRepository;
+	
+	@Autowired
+	private RolesService rolesService;
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -42,9 +46,20 @@ public class UsersService {
 		usersRepository.deleteById(id);
 	}
 
-	public List<User> getUsersByNamesOrEmailUser(String searchText) {
+	public List<User> getUsersByNamesOrEmailUser(String searchText, User user) {
 		searchText = "%" + searchText + "%";
 		List<User> users = usersRepository.findByNamesOrEmailUser(searchText);
-		return users;
+		return users
+				.stream()
+				.filter(u -> !u.getEmail().equals(user.getEmail()))
+				.collect(Collectors.toList());
+	}
+
+	public List<User> getUsersForListing(User user) {
+		return getUsers()
+				.stream()
+				.filter(u -> u.getRole().equals(rolesService.getRoles()[0]))
+				.filter(us -> !us.getEmail().equals(user.getEmail()))
+				.collect(Collectors.toList());
 	}
 }

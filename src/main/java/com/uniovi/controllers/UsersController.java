@@ -1,6 +1,8 @@
 package com.uniovi.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,10 +34,13 @@ public class UsersController {
 	
 	@RequestMapping("/user/list")
 	public String getListado(Model model, @RequestParam(value = "", required=false) String searchText) {
-		if (searchText != null && !searchText.isEmpty()) {
-			model.addAttribute("usersList", usersService.getUsersByNamesOrEmailUser(searchText));
-		} else {
-			model.addAttribute("usersList", usersService.getUsers());
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+		User activeUser = usersService.getUserByEmail(email);
+		if (searchText != null && !searchText.isEmpty()) {			
+			model.addAttribute("usersList", usersService.getUsersByNamesOrEmailUser(searchText, activeUser));
+		} else {			
+			model.addAttribute("usersList", usersService.getUsersForListing(activeUser));
 		}		
 		return "user/list";
 	}
