@@ -13,38 +13,29 @@
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="email"
 						placeholder="Ejemplo: ejemplosdi@uniovi.es" required="true" /> 
-						<!--<span
-						class="text-danger"   th:if="${#fields.hasErrors('dni')}"
-						th:errors="*{dni}">-->
+						<span class="text-danger" th:if="${#fields.hasErrors('email')}"
+							th:errors="*{email}">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="name">Nombre:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="name"
-						placeholder="Ejemplo: Juan" required="true" /> 
-						<!--<span
-						class="text-danger" th:if="${#fields.hasErrors('name')}"
-						th:errors="*{name}" /> -->
+						placeholder="Ejemplo: Juan" required="true" />						
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="lastName">Apellidos:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="lastName"
-						placeholder="Ejemplo: Peréz Almonte" required="true" /> 
-						<!--<span
-						class="text-danger" th:if="${#fields.hasErrors('lastName')}"
-						th:errors="*{lastName}" /> -->
+						placeholder="Ejemplo: Peréz Almonte" required="true" />
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="password">Password:</label>
 				<div class="col-sm-10">
 					<input type="password" class="form-control" name="password"
-						placeholder="Entre el Password" /> 
-						<!--<span class="text-danger"
-						th:if="${#fields.hasErrors('password')}" th:errors="*{password}" /> -->
+						placeholder="Introduzca la contraseña" /> 
 				</div>
 			</div>
 			<div class="form-group">
@@ -52,10 +43,10 @@
 					el Password:</label>
 				<div class="col-sm-10">
 					<input type="password" class="form-control" name="passwordConfirm"
-						placeholder="Repita el Password" /> 
-						<!--<span class="text-danger"
-						th:if="${#fields.hasErrors('passwordConfirm')}"
-						th:errors="*{passwordConfirm}" /> -->
+						placeholder="Repita la contraseña" /> 
+						<span class="text-danger"
+							th:if="${#fields.hasErrors('passwordConfirm')}"
+							th:errors="*{passwordConfirm}" />
 				</div>
 			</div>
 			<div class="form-group">
