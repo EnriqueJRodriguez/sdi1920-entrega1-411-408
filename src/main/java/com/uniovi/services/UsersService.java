@@ -42,7 +42,7 @@ public class UsersService {
 		usersRepository.deleteById(id);
 	}
 
-	public List<User> getUsersNameSurname(String searchText) {
+	public List<User> getUsersByNamesOrEmailUser(String searchText) {
 		searchText = "%" + searchText + "%";
 		List<User> users = usersRepository.findByNamesOrEmailUser(searchText);
 		return users;

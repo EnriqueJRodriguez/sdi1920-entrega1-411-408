@@ -5,9 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uniovi.entities.User;
 import com.uniovi.services.RolesService;
@@ -29,17 +29,15 @@ public class UsersController {
 
 	@Autowired
 	private SignUpFormValidator signUpFormValidator;
-
-	@RequestMapping(value = "/user/add")
-	public String getUser(Model model) {
-		// model.addAttribute("rolesList", rolesService.getRoles());
-		return "user/add";
-	}
-
-	@RequestMapping(value = "/user/add", method = RequestMethod.POST)
-	public String setUser(@ModelAttribute User user) {
-		usersService.addUser(user);
-		return "redirect:home";
+	
+	@RequestMapping("/user/list")
+	public String getListado(Model model, @RequestParam(value = "", required=false) String searchText) {
+		if (searchText != null && !searchText.isEmpty()) {
+			model.addAttribute("usersList", usersService.getUsersByNamesOrEmailUser(searchText));
+		} else {
+			model.addAttribute("usersList", usersService.getUsers());
+		}		
+		return "user/list";
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
@@ -67,10 +65,6 @@ public class UsersController {
 
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
 	public String home(Model model) {
-//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//		String dni = auth.getName();
-//		User activeUser = usersService.getUserByDni(dni);
-//		model.addAttribute("markList", activeUser.getMarks());
 		return "home";
 	}
 }
