@@ -51,6 +51,7 @@ public class UsersService {
 		List<User> users = usersRepository.findByNamesOrEmailUser(searchText);
 		return users
 				.stream()
+				.filter(u -> u.getRole().equals(rolesService.getRoles()[0]))
 				.filter(u -> !u.getEmail().equals(user.getEmail()))
 				.collect(Collectors.toList());
 	}
