@@ -9,14 +9,18 @@
 			</button>
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
+			<ul class="nav navbar-nav">
+				<li><a href="/" th:text="#{nav.message.index}"></a></li>
+			</ul>
+			<ul class="nav navbar-nav" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_STANDARD')">
+				<li><a href="/home" th:text="#{nav.message.home}"></a></li>
+			</ul>
 			<ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
-				<li><a href="/" th:text="#{nav.message.home}"></a></li>
-				<li id="users-menu" class="dropdown" sec:authorize="hasRole('ROLE_ADMIN')">
+				<li id="users-menu" class="dropdown" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_STANDARD')">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#" th:text="#{nav.message.users}">
 						<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a href="/user/add" th:text="#{nav.message.users.add}"></a></li>
 						<li><a href="/user/list" th:text="#{nav.message.users.list}"></a></li>
 					</ul>
 				</li>
