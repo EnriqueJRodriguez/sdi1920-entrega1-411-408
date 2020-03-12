@@ -77,7 +77,7 @@ public class UsersController {
 	}
 	
 	@RequestMapping(value = "/user/{id}/invitation/send", method = RequestMethod.GET)
-	public String setResendTrue(Model model, @PathVariable Long id) {
+	public String sendInvitation(Model model, @PathVariable Long id) {
 		usersService.createUserInvitation(id);
 		return "redirect:/user/list";
 	}
