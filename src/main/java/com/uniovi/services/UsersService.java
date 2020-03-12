@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -62,5 +64,14 @@ public class UsersService {
 				.filter(u -> u.getRole().equals(rolesService.getRoles()[0]))
 				.filter(us -> !us.getEmail().equals(user.getEmail()))
 				.collect(Collectors.toList());
+	}
+
+	public void setUserInvitation(boolean revised, Long id) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+		User user = usersRepository.findById(id).get();
+//		if (user.getEmail().equals(email)) {
+//			usersRepository.updateInvitation(revised, id);
+//		}		
 	}
 }
