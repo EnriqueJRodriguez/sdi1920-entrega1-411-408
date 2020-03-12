@@ -20,17 +20,19 @@
 				</thead>
 				<tbody>
 					<tr th:each="invitation: ${invitationsList}">
-						<td th:text="${invitation.user.email}"></td>
-						<td th:text="${invitation.user.name}"></td>
-						<td th:text="${invitation.user.lastName}"></td>
+						<td th:text="${invitation.sender.email}"></td>
+						<td th:text="${invitation.sender.name}"></td>
+						<td th:text="${invitation.sender.lastName}"></td>
 						<td>
 							<div>
 								<button type="button" th:id="${'acceptButton' + invitation.id}"
-									class="btn btn-info" th:text="${invitation.accept}"></button>
-							</div>
+									class="btn btn-info" th:text="#{invitations.button.accept}"></button>
+							</div>							
+						</td>
+						<td>
 							<div>
 								<button type="button" th:id="${'cancelButton' + invitation.id}"
-									class="btn btn-info" th:text="${invitation.cancel}"></button>
+									class="btn btn-info" th:text="#{invitations.button.cancel}"></button>
 							</div>
 						</td>
 					</tr>

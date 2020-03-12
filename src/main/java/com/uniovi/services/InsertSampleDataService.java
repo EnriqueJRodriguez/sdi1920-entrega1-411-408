@@ -5,6 +5,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uniovi.entities.Invitation;
 import com.uniovi.entities.User;
 
 @Service
@@ -15,6 +16,9 @@ public class InsertSampleDataService {
 
 	@Autowired
 	private RolesService rolesService;
+	
+	@Autowired
+	private InvitationService invitationService;
 
 	@PostConstruct
 	public void init() {
@@ -40,6 +44,12 @@ public class InsertSampleDataService {
 		usersService.addUser(user2);
 		usersService.addUser(user3);
 		usersService.addUser(user4);
+		
+		// Invitations
+		Invitation invitationMaxPepito = new Invitation();
+		invitationMaxPepito.setSender(user1); // Max sends the invitation
+		invitationMaxPepito.setReceiver(user2); // Pepito receives the invitation
+		invitationService.addInvitation(invitationMaxPepito); // We create the invitation
 	}
 
 }

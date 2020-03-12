@@ -1,5 +1,7 @@
 package com.uniovi.controllers;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -74,9 +76,18 @@ public class UsersController {
 		return "home";
 	}
 	
-	@RequestMapping(value = "/user/{id}/invitation", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/{id}/invitation/send", method = RequestMethod.GET)
 	public String setResendTrue(Model model, @PathVariable Long id) {
-		usersService.setUserInvitation(true, id);
+		usersService.createUserInvitation(id);
 		return "redirect:/user/list";
 	}
+	
+	@RequestMapping("/user/list/update")
+	public String updateList(Model model, Principal principal) {
+		String email = principal.getName();
+		User user = usersService.getUserByEmail(email);
+		model.addAttribute("usersList", usersService.getUsersForListing(user));
+		return "user/list :: tableusers";
+	}
+	
 }
