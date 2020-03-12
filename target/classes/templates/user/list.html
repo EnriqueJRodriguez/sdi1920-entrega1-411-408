@@ -31,7 +31,7 @@
 						<td th:text="${user.name}"></td>
 						<td th:text="${user.lastName}"></td>
 						<td>
-							<div th:unless="${user.invitation}">
+							<div>
 								<button type="button" th:id="${'invitationButton' + user.id}"
 									class="btn btn-info">Agregar amigo</button>
 							</div>
