@@ -5,9 +5,9 @@
 	<nav th:replace="fragments/nav" />
 	<div class="container" style="text-align: center">
 		<h1 th:text="#{welcome.message}"></h1>
-		<h2>Página de inicio</h2>
+		<h2 th:text="#{home.title}"></h2>
 		<p>
-			Estás registrado con éste email: 
+			<span th:text="#{home.logas}" th:inline="text"></span>
 			<span sec:authentication="principal.username" th:inline="text"> </span>
 		</p>
 	</div>
