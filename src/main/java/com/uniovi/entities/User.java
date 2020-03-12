@@ -1,6 +1,7 @@
 package com.uniovi.entities;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -17,13 +18,18 @@ public class User {
 	private String name;
 	private String lastName;
 
-	@ManyToMany
-	@JoinTable(name = "friends", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "friendId"))
-	private List<User> friends;
-
-	@ManyToMany
-	@JoinTable(name = "friends", joinColumns = @JoinColumn(name = "friendId"), inverseJoinColumns = @JoinColumn(name = "userId"))
-	private List<User> friendOf;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user1")
+    private Set<Invitation> InvitationRequestsTo = new HashSet<>();
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user2")
+    private Set<Invitation> InvitationRequestsOf = new HashSet<>();
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user1")
+    private Set<Friendship> FriendshipTo = new HashSet<>();
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user2")
+    private Set<Friendship> FriendshipOf = new HashSet<>();
+	
 
 	private String role;
 
