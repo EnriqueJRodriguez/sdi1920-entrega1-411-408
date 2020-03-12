@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.uniovi.entities.Invitation;
 import com.uniovi.entities.User;
 import com.uniovi.repositories.UsersRepository;
 
@@ -18,6 +19,9 @@ public class UsersService {
 
 	@Autowired
 	private UsersRepository usersRepository;
+	
+	@Autowired
+	private InvitationService invitationService;
 	
 	@Autowired
 	private RolesService rolesService;
@@ -66,12 +70,14 @@ public class UsersService {
 				.collect(Collectors.toList());
 	}
 
-	public void setUserInvitation(boolean revised, Long id) {
+	public void createUserInvitation(Long id) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		User user = usersRepository.findById(id).get();
-//		if (user.getEmail().equals(email)) {
-//			usersRepository.updateInvitation(revised, id);
-//		}		
+		User activeUser = usersRepository.findByEmail(email);
+		Invitation invitation = new Invitation();
+		invitation.setSender(activeUser);
+		invitation.setReceiver(user);
+		invitationService.addInvitation(invitation);
 	}
 }

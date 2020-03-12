@@ -16,30 +16,7 @@
 		<p>
 			<span th:text="#{users.message.users}" th:inline="text"></span>
 		</p>
-		<div class="table-responsive">
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th th:text="#{users.table.email}"></th>
-						<th th:text="#{users.table.name}"></th>
-						<th th:text="#{users.table.lastName}"></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="user: ${usersList}">
-						<td th:text="${user.email}"></td>
-						<td th:text="${user.name}"></td>
-						<td th:text="${user.lastName}"></td>
-						<td>
-							<div>
-								<button type="button" th:id="${'invitationButton' + user.id}"
-									class="btn btn-info">Agregar amigo</button>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+		<div th:replace="fragments/tableusers" />
 	</div>
 	<footer th:replace="fragments/footer" />
 </body>

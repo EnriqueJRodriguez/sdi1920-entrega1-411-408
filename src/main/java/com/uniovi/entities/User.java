@@ -18,10 +18,10 @@ public class User {
 	private String name;
 	private String lastName;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user1")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "receiver")
     private Set<Invitation> InvitationRequestsTo = new HashSet<>();
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user2")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "sender")
     private Set<Invitation> InvitationRequestsOf = new HashSet<>();
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user1")

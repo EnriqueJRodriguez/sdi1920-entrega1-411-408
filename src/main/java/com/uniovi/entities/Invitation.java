@@ -15,16 +15,16 @@ public class Invitation {
 
 	@ManyToOne
     @JoinColumn(referencedColumnName = "id")
-	private User user1;
+	private User sender;
 	@ManyToOne
     @JoinColumn(referencedColumnName = "id")
-	private User user2;
+	private User receiver;
 
-	public Invitation(long id, User user1, User user2) {
+	public Invitation(long id, User sender, User receiver) {
 		super();
 		this.id = id;
-		this.user1 = user1;
-		this.user2 = user2;
+		this.sender = sender;
+		this.receiver = receiver;
 	}
 
 	public Invitation() {
@@ -39,20 +39,20 @@ public class Invitation {
 		this.id = id;
 	}
 
-	public User getUser1() {
-		return user1;
+	public User getSender() {
+		return sender;
 	}
 
-	public void setUser1(User user1) {
-		this.user1 = user1;
+	public void setSender(User sender) {
+		this.sender = sender;
 	}
 
-	public User getUser2() {
-		return user2;
+	public User getReceiver() {
+		return receiver;
 	}
 
-	public void setUser2(User user2) {
-		this.user2 = user2;
+	public void setReceiver(User receiver) {
+		this.receiver = receiver;
 	}
 
 }

@@ -25,7 +25,7 @@ public class InvitationsController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		User activeUser = usersService.getUserByEmail(email);		
-		model.addAttribute("invitationList", invitationService.getInvitationsForUser(activeUser));
+		model.addAttribute("invitationsList", invitationService.getInvitationsForUser(activeUser));
 		return "invitation/list";
 	}
 

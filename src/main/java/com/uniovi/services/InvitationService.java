@@ -26,8 +26,12 @@ public class InvitationService {
 	public List<Invitation> getInvitationsForUser(User user) {
 		return getInvitations()
 				.stream()
-				.filter(i -> i.getUser2().getEmail().equals(user.getEmail()))
+				.filter(i -> i.getReceiver().getEmail().equals(user.getEmail()))
 				.collect(Collectors.toList());
+	}
+
+	public void addInvitation(Invitation invitation) {
+		invitationRepository.save(invitation);
 	}	
 
 }
