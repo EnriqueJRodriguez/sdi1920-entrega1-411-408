@@ -1,15 +1,23 @@
 package com.uniovi.entities;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
+@Entity
 public class Invitation {
 	
 	@Id
 	@GeneratedValue
 	private long id;
 
+	@ManyToOne
+    @JoinColumn(referencedColumnName = "id")
 	private User user1;
+	@ManyToOne
+    @JoinColumn(referencedColumnName = "id")
 	private User user2;
 
 	public Invitation(long id, User user1, User user2) {

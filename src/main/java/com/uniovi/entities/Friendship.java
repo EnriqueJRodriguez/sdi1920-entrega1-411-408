@@ -9,7 +9,11 @@ public class Friendship {
 	@GeneratedValue
 	private long id;
 
+	@ManyToOne
+    @JoinColumn(referencedColumnName = "id")
 	private User user1;
+	@ManyToOne
+    @JoinColumn(referencedColumnName = "id")
 	private User user2;
 
 	public Friendship(long id, User user1, User user2) {
