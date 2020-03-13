@@ -1,7 +1,9 @@
 package com.uniovi.services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,32 @@ public class InvitationService {
 				.stream()
 				.filter(i -> i.getSender().getEmail().equals(user.getEmail()))
 				.collect(Collectors.toList());
+	}
+	
+	public Map<Long,Boolean> calculateInvitationsForUser(User user, List<User> users){
+		List<Invitation> invitTo =  getInvitationsToUser(user);
+		List<Invitation> invitFor = getInvitationsForUser(user);
+		List<Invitation> invitations = new ArrayList<Invitation>();
+		invitations.addAll(invitTo);
+		invitations.addAll(invitFor);
+		HashMap<Long,Boolean> invitationsForUsers = new HashMap<Long, Boolean>();
+		int counter = 0;
+		for(User u : users) {
+			for(Invitation i: invitations) {
+				if(i.getReceiver().getId() == u.getId() || i.getSender().getId() == u.getId()) {
+					counter++;
+				}
+			}
+			if(counter == 0) {
+				counter = 0;
+				invitationsForUsers.put(u.getId(), false);
+			}
+			else {
+				counter = 0;
+				invitationsForUsers.put(u.getId(), true);
+			}
+		}
+		return invitationsForUsers;
 	}
 
 	public void addInvitation(Invitation invitation) {

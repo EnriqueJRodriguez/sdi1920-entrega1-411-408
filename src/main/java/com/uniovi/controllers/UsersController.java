@@ -1,7 +1,6 @@
 package com.uniovi.controllers;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.uniovi.entities.Invitation;
 import com.uniovi.entities.User;
 import com.uniovi.services.InvitationService;
 import com.uniovi.services.RolesService;
@@ -47,16 +45,15 @@ public class UsersController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		User activeUser = usersService.getUserByEmail(email);
-		List<Invitation> invitTo =  invitationService.getInvitationsToUser(activeUser);
-		List<Invitation> invitFor = invitationService.getInvitationsForUser(activeUser);
-		List<Invitation> invitations = new ArrayList<Invitation>();
-		invitations.addAll(invitTo);
-		invitations.addAll(invitFor);
-		model.addAttribute("invitations", invitations);
-		if (searchText != null && !searchText.isEmpty()) {			
-			model.addAttribute("usersList", usersService.getUsersByNamesOrEmailUser(searchText, activeUser));
-		} else {			
-			model.addAttribute("usersList", usersService.getUsersForListing(activeUser));
+		
+		if (searchText != null && !searchText.isEmpty()) {
+			List<User> users = usersService.getUsersByNamesOrEmailUser(searchText, activeUser);
+			model.addAttribute("usersList", users);
+			model.addAttribute("invitations", invitationService.calculateInvitationsForUser(activeUser, users));
+		} else {
+			List<User> users = usersService.getUsersForListing(activeUser);
+			model.addAttribute("usersList", users);
+			model.addAttribute("invitations", invitationService.calculateInvitationsForUser(activeUser, users));
 			
 		}		
 		return "user/list";
@@ -100,13 +97,9 @@ public class UsersController {
 	public String updateList(Model model, Principal principal) {
 		String email = principal.getName();
 		User user = usersService.getUserByEmail(email);
-		List<Invitation> invitTo =  invitationService.getInvitationsToUser(user);
-		List<Invitation> invitFor = invitationService.getInvitationsForUser(user);
-		List<Invitation> invitations = new ArrayList<Invitation>();
-		invitations.addAll(invitTo);
-		invitations.addAll(invitFor);
-		model.addAttribute("usersList", usersService.getUsersForListing(user));
-		model.addAttribute("invitations", invitations);
+		List<User> users = usersService.getUsersForListing(user);
+		model.addAttribute("usersList", users);
+		model.addAttribute("invitations", invitationService.calculateInvitationsForUser(user, users));
 		return "user/list :: tableusers";
 	}
 	
