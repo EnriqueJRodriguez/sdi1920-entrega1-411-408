@@ -93,16 +93,6 @@ public class UsersController {
 	@RequestMapping(value = "/user/{id}/invitation/send", method = RequestMethod.GET)
 	public String sendInvitation(Model model, @PathVariable Long id) {
 		usersService.createUserInvitation(id);
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String email = auth.getName();
-		User activeUser = usersService.getUserByEmail(email);
-		List<Invitation> invitTo =  invitationService.getInvitationsToUser(activeUser);
-		List<Invitation> invitFor = invitationService.getInvitationsForUser(activeUser);
-		List<Invitation> invitations = new ArrayList<Invitation>();
-		invitations.addAll(invitTo);
-		invitations.addAll(invitFor);
-		model.addAttribute("usersList", usersService.getUsersForListing(activeUser));
-		model.addAttribute("invitations", invitations);
 		return "redirect:/user/list";
 	}
 	
