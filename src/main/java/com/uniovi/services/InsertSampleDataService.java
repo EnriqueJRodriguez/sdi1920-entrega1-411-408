@@ -5,6 +5,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uniovi.entities.Friendship;
 import com.uniovi.entities.Invitation;
 import com.uniovi.entities.User;
 
@@ -19,6 +20,9 @@ public class InsertSampleDataService {
 	
 	@Autowired
 	private InvitationService invitationService;
+	
+	@Autowired
+	private FriendshipService friendshipService;
 
 	@PostConstruct
 	public void init() {
@@ -50,6 +54,13 @@ public class InsertSampleDataService {
 		invitationMaxPepito.setSender(user1); // Max sends the invitation
 		invitationMaxPepito.setReceiver(user2); // Pepito receives the invitation
 		invitationService.addInvitation(invitationMaxPepito); // We create the invitation
+		
+		// Friends
+		Friendship friendshipMaxJaimito = new Friendship();
+		friendshipMaxJaimito.setUser1(user1); // Max
+		friendshipMaxJaimito.setUser2(user3); // Jaimito
+		friendshipService.addFriendship(friendshipMaxJaimito); // We create the friendship
+		
 	}
 
 }
