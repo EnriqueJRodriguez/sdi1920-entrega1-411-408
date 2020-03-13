@@ -52,12 +52,12 @@ public class UsersController {
 		List<Invitation> invitations = new ArrayList<Invitation>();
 		invitations.addAll(invitTo);
 		invitations.addAll(invitFor);
+		model.addAttribute("invitations", invitations);
 		if (searchText != null && !searchText.isEmpty()) {			
 			model.addAttribute("usersList", usersService.getUsersByNamesOrEmailUser(searchText, activeUser));
-			model.addAttribute("invitations", invitations);
 		} else {			
 			model.addAttribute("usersList", usersService.getUsersForListing(activeUser));
-			model.addAttribute("invitations", invitations);
+			
 		}		
 		return "user/list";
 	}
@@ -93,6 +93,16 @@ public class UsersController {
 	@RequestMapping(value = "/user/{id}/invitation/send", method = RequestMethod.GET)
 	public String sendInvitation(Model model, @PathVariable Long id) {
 		usersService.createUserInvitation(id);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+		User activeUser = usersService.getUserByEmail(email);
+		List<Invitation> invitTo =  invitationService.getInvitationsToUser(activeUser);
+		List<Invitation> invitFor = invitationService.getInvitationsForUser(activeUser);
+		List<Invitation> invitations = new ArrayList<Invitation>();
+		invitations.addAll(invitTo);
+		invitations.addAll(invitFor);
+		model.addAttribute("usersList", usersService.getUsersForListing(activeUser));
+		model.addAttribute("invitations", invitations);
 		return "redirect:/user/list";
 	}
 	
@@ -100,7 +110,13 @@ public class UsersController {
 	public String updateList(Model model, Principal principal) {
 		String email = principal.getName();
 		User user = usersService.getUserByEmail(email);
+		List<Invitation> invitTo =  invitationService.getInvitationsToUser(user);
+		List<Invitation> invitFor = invitationService.getInvitationsForUser(user);
+		List<Invitation> invitations = new ArrayList<Invitation>();
+		invitations.addAll(invitTo);
+		invitations.addAll(invitFor);
 		model.addAttribute("usersList", usersService.getUsersForListing(user));
+		model.addAttribute("invitations", invitations);
 		return "user/list :: tableusers";
 	}
 	
