@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head" />
+<body>
+	<!--Barra de Navegación superior -->
+	<nav th:replace="fragments/nav" />
+	<div class="container">
+		<h2 th:text="#{friends.title}"></h2>
+		<p>
+			<span th:text="#{friends.message.invitations}" th:inline="text"></span>
+		</p>
+		<div class="table-responsive">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th th:text="#{friends.table.email}"></th>
+						<th th:text="#{friends.table.name}"></th>
+						<th th:text="#{friends.table.lastName}"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="friendship: ${friendshipList}">						
+						<td th:if="${activeUser.id != friendship.user1.id}" th:text="${friendship.user1.email}"></td>
+						<td th:unless="${activeUser.id != friendship.user1.id}" th:text="${friendship.user2.email}"></td>
+						
+						<td th:if="${activeUser.id != friendship.user1.id}" th:text="${friendship.user1.name}"></td>
+						<td th:unless="${activeUser.id != friendship.user1.id}" th:text="${friendship.user2.name}"></td>
+						
+						<td th:if="${activeUser.id != friendship.user1.id}" th:text="${friendship.user1.lastName}"></td>
+						<td th:unless="${activeUser.id != friendship.user1.id}" th:text="${friendship.user2.lastName}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<footer th:replace="fragments/footer" />
+</body>
+</html>
