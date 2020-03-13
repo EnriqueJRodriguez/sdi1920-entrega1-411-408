@@ -12,8 +12,8 @@
 				<td th:text="${user.email}"></td>
 				<td th:text="${user.name}"></td>
 				<td th:text="${user.lastName}"></td>
-				<td>
-					<div>
+				<td th:switch="${#lists.isEmpty(invitations)}">
+					<div th:case="true">
 						<button type="button" th:id="${'invitationButton' + user.id}"
 							class="btn btn-info" th:text="#{users.table.friends.add}"></button>
 						<script th:inline="javascript">
@@ -28,6 +28,26 @@
 							});
 							/*]]>*/
 						</script>
+					</div>
+					<div th:case="false">
+						<div th:each="invitation: ${invitations}">
+							<div th:if="${user.id == invitation.sender.id or user.id == invitation.receiver.id}">
+								<button type="button" th:id="${'invitationButton' + user.id}"
+									class="btn btn-info" th:text="#{users.table.friends.add}"></button>
+								<script th:inline="javascript">
+									/*<![CDATA[*/
+									$("#invitationButton[[${user.id}]]").click(function() {
+										$.get("/user/[[${user.id}]]/invitation/send",
+											function(data) {
+												var urlUpdate = '/user/list/update';
+												$("#tableUsers").load(urlUpdate);
+											}
+										);
+									});
+									/*]]>*/
+								</script>
+							</div>
+						</div>
 					</div>
 				</td>
 			</tr>

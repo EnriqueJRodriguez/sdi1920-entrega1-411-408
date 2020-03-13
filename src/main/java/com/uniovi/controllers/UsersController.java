@@ -1,6 +1,8 @@
 package com.uniovi.controllers;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -14,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.uniovi.entities.Invitation;
 import com.uniovi.entities.User;
+import com.uniovi.services.InvitationService;
 import com.uniovi.services.RolesService;
 import com.uniovi.services.SecurityService;
 import com.uniovi.services.UsersService;
@@ -31,6 +35,9 @@ public class UsersController {
 
 	@Autowired
 	private SecurityService securityService;
+	
+	@Autowired
+	private InvitationService invitationService;
 
 	@Autowired
 	private SignUpFormValidator signUpFormValidator;
@@ -42,8 +49,22 @@ public class UsersController {
 		User activeUser = usersService.getUserByEmail(email);
 		if (searchText != null && !searchText.isEmpty()) {			
 			model.addAttribute("usersList", usersService.getUsersByNamesOrEmailUser(searchText, activeUser));
+			List<Invitation> invitTo =  invitationService.getInvitationsToUser(activeUser);
+			List<Invitation> invitFor = invitationService.getInvitationsForUser(activeUser);
+			List<Invitation> invitations = new ArrayList<Invitation>();
+			invitations.addAll(invitTo);
+			invitations.addAll(invitFor);
+			model.addAttribute("invitations", invitations);
 		} else {			
 			model.addAttribute("usersList", usersService.getUsersForListing(activeUser));
+			model.addAttribute("alreadyInvitedTo", invitationService.getInvitationsToUser(activeUser));
+			model.addAttribute("alreadyInvitedFor", invitationService.getInvitationsForUser(activeUser));
+			List<Invitation> invitTo =  invitationService.getInvitationsToUser(activeUser);
+			List<Invitation> invitFor = invitationService.getInvitationsForUser(activeUser);
+			List<Invitation> invitations = new ArrayList<Invitation>();
+			invitations.addAll(invitTo);
+			invitations.addAll(invitFor);
+			model.addAttribute("invitations", invitations);
 		}		
 		return "user/list";
 	}
