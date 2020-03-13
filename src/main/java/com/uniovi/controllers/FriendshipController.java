@@ -12,7 +12,7 @@ import com.uniovi.services.FriendshipService;
 import com.uniovi.services.UsersService;
 
 @Controller
-public class FrienshipController {
+public class FriendshipController {
 	
 	@Autowired
 	private UsersService usersService;
