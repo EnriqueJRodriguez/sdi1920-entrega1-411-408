@@ -47,23 +47,16 @@ public class UsersController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		User activeUser = usersService.getUserByEmail(email);
+		List<Invitation> invitTo =  invitationService.getInvitationsToUser(activeUser);
+		List<Invitation> invitFor = invitationService.getInvitationsForUser(activeUser);
+		List<Invitation> invitations = new ArrayList<Invitation>();
+		invitations.addAll(invitTo);
+		invitations.addAll(invitFor);
 		if (searchText != null && !searchText.isEmpty()) {			
 			model.addAttribute("usersList", usersService.getUsersByNamesOrEmailUser(searchText, activeUser));
-			List<Invitation> invitTo =  invitationService.getInvitationsToUser(activeUser);
-			List<Invitation> invitFor = invitationService.getInvitationsForUser(activeUser);
-			List<Invitation> invitations = new ArrayList<Invitation>();
-			invitations.addAll(invitTo);
-			invitations.addAll(invitFor);
 			model.addAttribute("invitations", invitations);
 		} else {			
 			model.addAttribute("usersList", usersService.getUsersForListing(activeUser));
-			model.addAttribute("alreadyInvitedTo", invitationService.getInvitationsToUser(activeUser));
-			model.addAttribute("alreadyInvitedFor", invitationService.getInvitationsForUser(activeUser));
-			List<Invitation> invitTo =  invitationService.getInvitationsToUser(activeUser);
-			List<Invitation> invitFor = invitationService.getInvitationsForUser(activeUser);
-			List<Invitation> invitations = new ArrayList<Invitation>();
-			invitations.addAll(invitTo);
-			invitations.addAll(invitFor);
 			model.addAttribute("invitations", invitations);
 		}		
 		return "user/list";
