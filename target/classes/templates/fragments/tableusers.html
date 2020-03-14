@@ -1,5 +1,5 @@
 <div class="table-responsive">
-	<table class="table table-hover" id="tableUsers">
+	<table class="table table-hover">
 		<thead>
 			<tr>
 				<th th:text="#{users.table.email}"></th>
@@ -21,7 +21,11 @@
 							$("#invitationButton[[${user.id}]]").click(function() {
 								$.get("/user/[[${user.id}]]/invitation/send",
 									function(data) {
+										var numberPage = [[${param.page}]];
 										var urlUpdate = '/user/list/update';
+										if (numberPage != null) {
+								  			urlUpdate += "?page=" + numberPage[0];
+								  		}
 										$("#tableUsers").load(urlUpdate);
 									}
 								);
