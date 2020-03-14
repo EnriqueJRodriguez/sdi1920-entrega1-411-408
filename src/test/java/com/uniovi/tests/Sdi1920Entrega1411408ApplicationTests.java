@@ -1,5 +1,7 @@
 package com.uniovi.tests;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.List;
 
 import org.junit.After;
@@ -80,6 +82,7 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		PO_View.checkKey(driver, "home.logas", PO_Properties.getSPANISH());
 //		Assert.notNull(userService.getUserByEmail("marcos@sdiuniovi.es").getLastName().equals("Rupertez"),
 //				"Usuario No Encontrado");
+		//Nos desconectamos
 		PO_PrivateView.logout(driver);
 	}
 
@@ -91,6 +94,7 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 		// Rellenamos el formulario.
 		PO_RegisterView.fillForm(driver, "", "", "", "123456", "123456");
+		// Comprobamos que nos salta un error en los campos del formulario
 		PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
 	}
 
@@ -102,6 +106,7 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 		// Rellenamos el formulario.
 		PO_RegisterView.fillForm(driver, "albeto@uniovi.es", "Alberto", "Monzon", "123456", "12");
+		// Comprobamos que nos salta un error en los campos del formulario
 		PO_RegisterView.checkKey(driver, "Error.signup.passwordConfirm.coincidence", PO_Properties.getSPANISH());
 //			Assert.isNull(userService.getUserByEmail("albeto@uniovi.es"),"Usuario No Encontrado");
 	}
@@ -114,6 +119,7 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 		// Rellenamos el formulario.
 		PO_RegisterView.fillForm(driver, repeatedEmail, "Alberto", "Monzon", "123456", "12");
+		// Comprobamos que nos salta un error en los campos del formulario
 		PO_RegisterView.checkKey(driver, "Error.signup.email.duplicate", PO_Properties.getSPANISH());
 //			Assert.isTrue(!userService.getUserByEmail(repeatedEmail).getLastName().equals("Monzon"), "El usuario repetido no se inserto" );
 	}
@@ -125,9 +131,10 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		// Rellenamos el formulario
 		PO_LoginView.fillForm(driver, "juansdi@uniovi.es", "123456");
-		// Comprobamos que entramos en la pagina privada de Alumno
+		// Comprobamos que entramos en la pagina privada de usuarios
 		PO_NavView.checkElement(driver, "text",
 				PO_NavView.getP().getString("nav.message.users", PO_Properties.getSPANISH()));
+		//Nos desconectamos
 		PO_PrivateView.logout(driver);
 	}
 
@@ -138,9 +145,10 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		// Rellenamos el formulario
 		PO_LoginView.fillForm(driver, "jaimitosdi@uniovi.es", "123456");
-		// Comprobamos que entramos en la pagina privada de Alumno
+		// Comprobamos que entramos en la pagina privada de usuarios
 		PO_NavView.checkElement(driver, "text",
 				PO_NavView.getP().getString("nav.message.users", PO_Properties.getSPANISH()));
+		//Nos desconectamos
 		PO_PrivateView.logout(driver);
 	}
 
@@ -152,7 +160,7 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		// Rellenamos el formulario
 		PO_LoginView.fillForm(driver, "", "");
-		// Comprobamos que entramos en la pagina privada de Alumno
+		// Comprobamos que seguimos en la pagina de inicio
 		PO_LoginView.checkKey(driver, "login.title", PO_Properties.getSPANISH());
 	}
 
@@ -164,9 +172,32 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		// Rellenamos el formulario
 		PO_LoginView.fillForm(driver, "jaimitosdi@uniovi.es", "12");
-		// Comprobamos que entramos en la pagina privada de Alumno
+		// Comprobamos que seguimos en la pagina de inicio
 		PO_LoginView.checkKey(driver, "login.title", PO_Properties.getSPANISH());
 	}
+	
+	// PR09. Hacer click en la opción de salir de sesión y comprobar que se redirige a la página de inicio de sesión (Login).
+	@Test
+	public void PR09() {
+		// Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "jaimitosdi@uniovi.es", "123456");
+		// Comprobamos que entramos en la pagina privada de usuarios
+		PO_LoginView.checkKey(driver, "users.title", PO_Properties.getSPANISH());
+		//Nos desconectamos
+		PO_PrivateView.logout(driver);
+		// Comprobamos que estamos en la pantalla de inicio
+		PO_LoginView.checkKey(driver, "login.title", PO_Properties.getSPANISH());
+		// Comprobamos que no podemos acceder a la pestaña de usuarios
+		PO_View.checkNoElement(driver, "users.title", PO_Properties.getSPANISH());
+	}
+
+	// PR10. Comprobar que el botón cerrar sesión no está visible si el usuario no está autenticado.
+		@Test
+		public void PR10() {
+			PO_NavView.checkNoElement(driver, "logout.message", PO_Properties.getSPANISH());
+		}
 
 //	// PR06. Prueba del formulario de registro. DNI repetido en la BD, nombre corto,
 //	// ...
