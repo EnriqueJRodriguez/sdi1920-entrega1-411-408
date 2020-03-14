@@ -20,6 +20,7 @@ import com.uniovi.entities.User;
 import com.uniovi.services.UsersService;
 import com.uniovi.tests.pageobjects.PO_HomeView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
+import com.uniovi.tests.pageobjects.PO_NavView;
 import com.uniovi.tests.pageobjects.PO_PrivateView;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
@@ -109,6 +110,7 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		PO_View.checkKey(driver, "home.logas", PO_Properties.getSPANISH());
 //		Assert.notNull(userService.getUserByEmail("marcos@sdiuniovi.es").getLastName().equals("Rupertez"),
 //				"Usuario No Encontrado");
+		PO_NavView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}
 	
 	// PR02. Registro de Usuario con datos inválidos (email vacío, nombre vacío, apellidos vacíos)
@@ -118,7 +120,8 @@ public class Sdi1920Entrega1411408ApplicationTests {
 			PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 			// Rellenamos el formulario.
 			PO_RegisterView.fillForm(driver, "", "", "", "123456", "123456");
-			PO_View.checkKey(driver, "Error.Empty", PO_Properties.getSPANISH());
+			PO_View.getP();
+			PO_RegisterView.checkKey(driver, "Error.Empty", PO_Properties.getSPANISH());
 		}
 		
 	// PR03. Registro de Usuario con datos inválidos (repetición de contraseña inválida).
@@ -128,6 +131,7 @@ public class Sdi1920Entrega1411408ApplicationTests {
 			PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 			// Rellenamos el formulario.
 			PO_RegisterView.fillForm(driver, "albeto@uniovi.es", "Alberto", "Monzon", "123456", "12");
+			PO_View.getP();
 			PO_RegisterView.checkKey(driver, "Error.Error.signup.passwordConfirm.coincidence", PO_Properties.getSPANISH());
 //			Assert.isNull(userService.getUserByEmail("albeto@uniovi.es"),"Usuario No Encontrado");
 	}
@@ -147,6 +151,7 @@ public class Sdi1920Entrega1411408ApplicationTests {
 			PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 			// Rellenamos el formulario.
 			PO_RegisterView.fillForm(driver, repeatedEmail, "Alberto", "Monzon", "123456", "12");
+			PO_View.getP();
 			PO_RegisterView.checkKey(driver, "Error.signup.email.duplicate", PO_Properties.getSPANISH());
 //			Assert.isTrue(!userService.getUserByEmail(repeatedEmail).getLastName().equals("Monzon"), "El usuario repetido no se inserto" );
 	}

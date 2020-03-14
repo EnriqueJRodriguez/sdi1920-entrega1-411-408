@@ -5,4 +5,7 @@ encoding//src/main/resources/messages.properties=UTF-8
 encoding//src/main/resources/messages_en.properties=UTF-8
 encoding//src/main/resources/messages_es.properties=UTF-8
 encoding//src/test/java=UTF-8
+encoding//src/test/java/messages.properties=UTF-8
+encoding//src/test/java/messages_en.properties=UTF-8
+encoding//src/test/java/messages_es.properties=UTF-8
 encoding/<project>=UTF-8
