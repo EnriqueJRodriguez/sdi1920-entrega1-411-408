@@ -35,7 +35,7 @@ public class PO_PrivateView extends PO_NavView {
 		PO_View.checkElement(driver, "text", textp);
 	}
 	
-	static public void logout(WebDriver driver, String textp) {
-		clickOption(driver, "logout", "text", textp);
+	static public void logout(WebDriver driver) {
+		PO_NavView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}
 }

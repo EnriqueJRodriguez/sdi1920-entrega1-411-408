@@ -43,6 +43,12 @@ public class PO_View {
 				getTimeout());
 		return elementos;
 	}
+	
+	static public List<WebElement> checkElementKey(WebDriver driver,String type, String key, int locale) {
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, type, p.getString(key, locale),
+				getTimeout());
+		return elementos;
+	}
 
 	/**
 	 * Espera por la visibilidad de un elemento/s en la vista actualmente cargandose
