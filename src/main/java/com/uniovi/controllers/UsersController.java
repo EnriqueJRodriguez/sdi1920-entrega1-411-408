@@ -1,10 +1,10 @@
 package com.uniovi.controllers;
 
 import java.security.Principal;
-import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -42,19 +42,21 @@ public class UsersController {
 	private SignUpFormValidator signUpFormValidator;
 
 	@RequestMapping("/user/list")
-	public String getListado(Model model, @RequestParam(value = "", required = false) String searchText) {
+	public String getListado(Model model, Pageable pageable, @RequestParam(value = "", required = false) String searchText) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		User activeUser = usersService.getUserByEmail(email);
 
 		if (searchText != null && !searchText.isEmpty()) {
-			List<User> users = usersService.getUsersByNamesOrEmailUser(searchText, activeUser);
-			model.addAttribute("usersList", users);
-			model.addAttribute("invitations", invitationService.calculateInvitationsForUser(activeUser, users));
+			Page<User> users = usersService.getUsersByNamesOrEmailUser(pageable, searchText, activeUser);
+			model.addAttribute("usersList", users.getContent());
+			model.addAttribute("invitations", invitationService.calculateInvitationsForUser(pageable, activeUser, users));
+			model.addAttribute("page", users);
 		} else {
-			List<User> users = usersService.getUsersForListing(activeUser);
-			model.addAttribute("usersList", users);
-			model.addAttribute("invitations", invitationService.calculateInvitationsForUser(activeUser, users));
+			Page<User> users = usersService.getUsersForListing(pageable, activeUser);
+			model.addAttribute("usersList", users.getContent());
+			model.addAttribute("invitations", invitationService.calculateInvitationsForUser(pageable, activeUser, users));
+			model.addAttribute("page", users);
 		}
 		return "user/list";
 	}
@@ -94,12 +96,13 @@ public class UsersController {
 	}
 
 	@RequestMapping("/user/list/update")
-	public String updateList(Model model, Principal principal) {
+	public String updateList(Model model, Pageable pageable, Principal principal) {
 		String email = principal.getName();
 		User user = usersService.getUserByEmail(email);
-		List<User> users = usersService.getUsersForListing(user);
-		model.addAttribute("usersList", users);
-		model.addAttribute("invitations", invitationService.calculateInvitationsForUser(user, users));
+		Page<User> users = usersService.getUsersForListing(pageable, user);
+		model.addAttribute("usersList", users.getContent());
+		model.addAttribute("invitations", invitationService.calculateInvitationsForUser(pageable, user, users));
+		model.addAttribute("page", users);
 		return "user/list :: tableusers";
 	}
 

@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.Friendship;
@@ -23,29 +26,27 @@ public class InvitationService {
 	@Autowired
 	private FriendshipService friendshipService;
 
-	public List<Invitation> getInvitations() {
-		List<Invitation> invitations = new ArrayList<Invitation>();
-		invitationRepository.findAll().forEach(invitations::add);
-		return invitations;
+	public Page<Invitation> getInvitations(Pageable pageable) {
+		return invitationRepository.findAll(pageable);
 	}
 
-	public List<Invitation> getInvitationsForUser(User user) {
-		return getInvitations().stream().filter(i -> i.getReceiver().getEmail().equals(user.getEmail()))
-				.collect(Collectors.toList());
+	public Page<Invitation> getInvitationsForUser(Pageable pageable, User user) {
+		return new PageImpl<Invitation>(getInvitations(pageable).stream()
+				.filter(i -> i.getReceiver().getEmail().equals(user.getEmail())).collect(Collectors.toList()));
 	}
 
-	public List<Invitation> getInvitationsFromUser(User user) {
-		return getInvitations().stream().filter(i -> i.getSender().getEmail().equals(user.getEmail()))
-				.collect(Collectors.toList());
+	public Page<Invitation> getInvitationsFromUser(Pageable pageable, User user) {
+		return new PageImpl<Invitation>(getInvitations(pageable).stream()
+				.filter(i -> i.getSender().getEmail().equals(user.getEmail())).collect(Collectors.toList()));
 	}
 
-	public Map<Long, Boolean> calculateInvitationsForUser(User user, List<User> users) {
-		List<Invitation> invitations = getAllInvitationsForUser(user);
+	public Map<Long, Boolean> calculateInvitationsForUser(Pageable pageable, User user, Page<User> users) {
+		Page<Invitation> invitations = getAllInvitationsForUser(pageable, user);
 		HashMap<Long, Boolean> invitationsForUsers = new HashMap<Long, Boolean>();
 		return fillInvitationsMap(users, invitations, invitationsForUsers);
 	}
 
-	private Map<Long, Boolean> fillInvitationsMap(List<User> users, List<Invitation> invitations,
+	private Map<Long, Boolean> fillInvitationsMap(Page<User> users, Page<Invitation> invitations,
 			HashMap<Long, Boolean> invitationsForUsers) {
 		int counter = 0;
 		for (User u : users) {
@@ -65,13 +66,13 @@ public class InvitationService {
 		return invitationsForUsers;
 	}
 
-	private List<Invitation> getAllInvitationsForUser(User user) {
-		List<Invitation> invitFrom = getInvitationsFromUser(user);
-		List<Invitation> invitFor = getInvitationsForUser(user);
+	private Page<Invitation> getAllInvitationsForUser(Pageable pageable, User user) {
+		List<Invitation> invitFrom = getInvitationsFromUser(pageable, user).toList();
+		List<Invitation> invitFor = getInvitationsForUser(pageable, user).toList();
 		List<Invitation> invitations = new ArrayList<Invitation>();
 		invitations.addAll(invitFrom);
 		invitations.addAll(invitFor);
-		return invitations;
+		return new PageImpl<Invitation>(invitations);
 	}
 
 	public void addInvitation(Invitation invitation) {

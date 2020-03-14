@@ -1,10 +1,11 @@
 package com.uniovi.services;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -29,10 +30,8 @@ public class UsersService {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	public List<User> getUsers() {
-		List<User> users = new ArrayList<User>();
-		usersRepository.findAll().forEach(users::add);
-		return users;
+	public Page<User> getUsers(Pageable pageable) {
+		return usersRepository.findAll(pageable);
 	}
 
 	public User getUser(Long id) {
@@ -52,22 +51,22 @@ public class UsersService {
 		usersRepository.deleteById(id);
 	}
 
-	public List<User> getUsersByNamesOrEmailUser(String searchText, User user) {
+	public Page<User> getUsersByNamesOrEmailUser(Pageable pageable, String searchText, User user) {		
 		searchText = "%" + searchText + "%";
-		List<User> users = usersRepository.findByNamesOrEmailUser(searchText);
-		return users
+		Page<User> users = usersRepository.findByNamesOrEmailUser(pageable, searchText);
+		return new PageImpl<User>(users
 				.stream()
 				.filter(u -> u.getRole().equals(rolesService.getRoles()[0]))
 				.filter(u -> !u.getEmail().equals(user.getEmail()))
-				.collect(Collectors.toList());
+				.collect(Collectors.toList()));
 	}
 
-	public List<User> getUsersForListing(User user) {
-		return getUsers()
+	public Page<User> getUsersForListing(Pageable pageable, User user) {
+		return new PageImpl<User>(getUsers(pageable)
 				.stream()
 				.filter(u -> u.getRole().equals(rolesService.getRoles()[0]))
 				.filter(us -> !us.getEmail().equals(user.getEmail()))
-				.collect(Collectors.toList());
+				.collect(Collectors.toList()));
 	}
 
 	public void createUserInvitation(Long id) {
