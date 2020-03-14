@@ -23,12 +23,14 @@ public class LoginValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		User user = (User) target;
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "Error.empty");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "Error.empty");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "Error.empty");
 			
 		User userbd = usersService.getUserByEmail(user.getEmail());
-		
-		if (userbd.getPassword() != user.getPassword()) {
+		if(userbd == null) {
+			errors.rejectValue("password", "Error.login.match");
+		}
+		if (userbd != null && userbd.getPassword() != user.getPassword()) {
 			errors.rejectValue("password", "Error.login.match");
 		}
 	}

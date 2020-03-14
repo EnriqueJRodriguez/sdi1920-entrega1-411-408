@@ -85,6 +85,7 @@ public class UsersController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {
+		model.addAttribute("user", new User());
 		return "login";
 	}
 	
@@ -94,7 +95,9 @@ public class UsersController {
 		if (result.hasErrors()) {
 			return "login";
 		}
-		return "redirect:home";
+		user.setRole(rolesService.getRoles()[0]);
+		securityService.autoLogin(user.getEmail(), user.getPasswordConfirm());
+		return "redirect:/user/list";
 	}
 
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
