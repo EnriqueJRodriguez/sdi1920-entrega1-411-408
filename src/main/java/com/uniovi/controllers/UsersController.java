@@ -34,19 +34,19 @@ public class UsersController {
 
 	@Autowired
 	private SecurityService securityService;
-	
+
 	@Autowired
 	private InvitationService invitationService;
 
 	@Autowired
 	private SignUpFormValidator signUpFormValidator;
-	
+
 	@RequestMapping("/user/list")
-	public String getListado(Model model, @RequestParam(value = "", required=false) String searchText) {
+	public String getListado(Model model, @RequestParam(value = "", required = false) String searchText) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		User activeUser = usersService.getUserByEmail(email);
-		
+
 		if (searchText != null && !searchText.isEmpty()) {
 			List<User> users = usersService.getUsersByNamesOrEmailUser(searchText, activeUser);
 			model.addAttribute("usersList", users);
@@ -55,8 +55,7 @@ public class UsersController {
 			List<User> users = usersService.getUsersForListing(activeUser);
 			model.addAttribute("usersList", users);
 			model.addAttribute("invitations", invitationService.calculateInvitationsForUser(activeUser, users));
-			
-		}		
+		}
 		return "user/list";
 	}
 
@@ -87,19 +86,13 @@ public class UsersController {
 	public String home(Model model) {
 		return "home";
 	}
-	
+
 	@RequestMapping(value = "/user/{id}/invitation/send", method = RequestMethod.GET)
 	public String sendInvitation(Model model, @PathVariable Long id) {
 		usersService.createUserInvitation(id);
-
-		@SuppressWarnings("unchecked")
-		Map<Long,Boolean> invitations = (Map<Long, Boolean>) model.getAttribute("invitations");
-		invitations.replace(id, true);
-		model.addAttribute("invitations", invitations);
-
-		return "redirect: /user/list";
+		return "redirect:/user/list";
 	}
-	
+
 	@RequestMapping("/user/list/update")
 	public String updateList(Model model, Principal principal) {
 		String email = principal.getName();
@@ -109,5 +102,5 @@ public class UsersController {
 		model.addAttribute("invitations", invitationService.calculateInvitationsForUser(user, users));
 		return "user/list :: tableusers";
 	}
-	
+
 }

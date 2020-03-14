@@ -16,13 +16,13 @@ import com.uniovi.repositories.InvitationRepository;
 
 @Service
 public class InvitationService {
-	
+
 	@Autowired
 	private InvitationRepository invitationRepository;
-	
+
 	@Autowired
 	private FriendshipService friendshipService;
-	
+
 	public List<Invitation> getInvitations() {
 		List<Invitation> invitations = new ArrayList<Invitation>();
 		invitationRepository.findAll().forEach(invitations::add);
@@ -30,43 +30,48 @@ public class InvitationService {
 	}
 
 	public List<Invitation> getInvitationsForUser(User user) {
-		return getInvitations()
-				.stream()
-				.filter(i -> i.getReceiver().getEmail().equals(user.getEmail()))
+		return getInvitations().stream().filter(i -> i.getReceiver().getEmail().equals(user.getEmail()))
 				.collect(Collectors.toList());
 	}
-	
-	public List<Invitation> getInvitationsToUser(User user) {
-		return getInvitations()
-				.stream()
-				.filter(i -> i.getSender().getEmail().equals(user.getEmail()))
+
+	public List<Invitation> getInvitationsFromUser(User user) {
+		return getInvitations().stream().filter(i -> i.getSender().getEmail().equals(user.getEmail()))
 				.collect(Collectors.toList());
 	}
-	
-	public Map<Long,Boolean> calculateInvitationsForUser(User user, List<User> users){
-		List<Invitation> invitTo =  getInvitationsToUser(user);
-		List<Invitation> invitFor = getInvitationsForUser(user);
-		List<Invitation> invitations = new ArrayList<Invitation>();
-		invitations.addAll(invitTo);
-		invitations.addAll(invitFor);
-		HashMap<Long,Boolean> invitationsForUsers = new HashMap<Long, Boolean>();
+
+	public Map<Long, Boolean> calculateInvitationsForUser(User user, List<User> users) {
+		List<Invitation> invitations = getAllInvitationsForUser(user);
+		HashMap<Long, Boolean> invitationsForUsers = new HashMap<Long, Boolean>();
+		return fillInvitationsMap(users, invitations, invitationsForUsers);
+	}
+
+	private Map<Long, Boolean> fillInvitationsMap(List<User> users, List<Invitation> invitations,
+			HashMap<Long, Boolean> invitationsForUsers) {
 		int counter = 0;
-		for(User u : users) {
-			for(Invitation i: invitations) {
-				if(i.getReceiver().getId() == u.getId() || i.getSender().getId() == u.getId()) {
+		for (User u : users) {
+			for (Invitation i : invitations) {
+				if (i.getReceiver().getId() == u.getId() || i.getSender().getId() == u.getId()) {
 					counter++;
 				}
 			}
-			if(counter == 0) {
+			if (counter == 0) {
 				counter = 0;
 				invitationsForUsers.put(u.getId(), false);
-			}
-			else {
+			} else {
 				counter = 0;
 				invitationsForUsers.put(u.getId(), true);
 			}
 		}
 		return invitationsForUsers;
+	}
+
+	private List<Invitation> getAllInvitationsForUser(User user) {
+		List<Invitation> invitFrom = getInvitationsFromUser(user);
+		List<Invitation> invitFor = getInvitationsForUser(user);
+		List<Invitation> invitations = new ArrayList<Invitation>();
+		invitations.addAll(invitFrom);
+		invitations.addAll(invitFor);
+		return invitations;
 	}
 
 	public void addInvitation(Invitation invitation) {
@@ -80,6 +85,6 @@ public class InvitationService {
 		friendship.setUser2(invitation.getReceiver());
 		friendshipService.addFriendship(friendship);
 		invitationRepository.delete(invitation);
-	}	
+	}
 
 }
