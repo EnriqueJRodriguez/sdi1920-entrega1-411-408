@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uniovi.entities.Friendship;
 import com.uniovi.entities.Invitation;
 import com.uniovi.entities.User;
 import com.uniovi.repositories.InvitationRepository;
@@ -18,6 +19,9 @@ public class InvitationService {
 	
 	@Autowired
 	private InvitationRepository invitationRepository;
+	
+	@Autowired
+	private FriendshipService friendshipService;
 	
 	public List<Invitation> getInvitations() {
 		List<Invitation> invitations = new ArrayList<Invitation>();
@@ -67,6 +71,15 @@ public class InvitationService {
 
 	public void addInvitation(Invitation invitation) {
 		invitationRepository.save(invitation);
+	}
+
+	public void createFriendship(Long id) {
+		Invitation invitation = invitationRepository.findById(id).get();
+		Friendship friendship = new Friendship();
+		friendship.setUser1(invitation.getSender());
+		friendship.setUser2(invitation.getReceiver());
+		friendshipService.addFriendship(friendship);
+		invitationRepository.delete(invitation);
 	}	
 
 }
