@@ -1,7 +1,5 @@
 package com.uniovi.tests;
 
-
-
 import java.util.List;
 
 import org.junit.After;
@@ -29,17 +27,17 @@ import com.uniovi.tests.util.SeleniumUtils;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class Sdi1920Entrega1411408ApplicationTests {
-	
+
 	private UsersService userService;
-	
+
 	// Hugo
 
 	// GNU/Linux
 //	static String PathFirefox = "/usr/bin/firefox";
 //	static String GeckDriver024 = "/home/asuka/Universidad/Tercero/SDI/Lab/SecondPart/Other_files/Materials/geckodriver";
-	
+
 	// Enrique
-	
+
 	// Windows
 	static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
 	static String GeckDriver024 = "C:\\Users\\EnriqueJRodriguez\\Downloads\\OneDrive_2020-03-02\\PL-SDI-Ses5-material\\geckodriver024win64.exe";
@@ -84,85 +82,91 @@ public class Sdi1920Entrega1411408ApplicationTests {
 //				"Usuario No Encontrado");
 		PO_PrivateView.logout(driver);
 	}
-	
-	// PR02. Registro de Usuario con datos inválidos (email vacío, nombre vacío, apellidos vacíos)
-		@Test
-		public void PR02() {
-			// Vamos al formulario de registro
-			PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
-			// Rellenamos el formulario.
-			PO_RegisterView.fillForm(driver, "", "", "", "123456", "123456");
-			PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
-		}
-		
-	// PR03. Registro de Usuario con datos inválidos (repetición de contraseña inválida).
-		@Test
-		public void PR03() {
-			// Vamos al formulario de registro
-			PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
-			// Rellenamos el formulario.
-			PO_RegisterView.fillForm(driver, "albeto@uniovi.es", "Alberto", "Monzon", "123456", "12");
-			PO_RegisterView.checkKey(driver, "Error.signup.passwordConfirm.coincidence", PO_Properties.getSPANISH()); 
+
+	// PR02. Registro de Usuario con datos inválidos (email vacío, nombre vacío,
+	// apellidos vacíos)
+	@Test
+	public void PR02() {
+		// Vamos al formulario de registro
+		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+		// Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "", "", "", "123456", "123456");
+		PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
+	}
+
+	// PR03. Registro de Usuario con datos inválidos (repetición de contraseña
+	// inválida).
+	@Test
+	public void PR03() {
+		// Vamos al formulario de registro
+		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+		// Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "albeto@uniovi.es", "Alberto", "Monzon", "123456", "12");
+		PO_RegisterView.checkKey(driver, "Error.signup.passwordConfirm.coincidence", PO_Properties.getSPANISH());
 //			Assert.isNull(userService.getUserByEmail("albeto@uniovi.es"),"Usuario No Encontrado");
 	}
-	
+
 	// PR04. Registro de Usuario con datos inválidos (email existente).
 	@Test
 	public void PR04() {
-			String repeatedEmail = "marcos@sdiuniovi.es"; // Usamos el del test anterior por defecto
-			// Vamos al formulario de registro
-			PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
-			// Rellenamos el formulario.
-			PO_RegisterView.fillForm(driver, repeatedEmail, "Alberto", "Monzon", "123456", "12");
-			PO_RegisterView.checkKey(driver, "Error.signup.email.duplicate", PO_Properties.getSPANISH());
+		String repeatedEmail = "marcos@sdiuniovi.es"; // Usamos el del test anterior por defecto
+		// Vamos al formulario de registro
+		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+		// Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, repeatedEmail, "Alberto", "Monzon", "123456", "12");
+		PO_RegisterView.checkKey(driver, "Error.signup.email.duplicate", PO_Properties.getSPANISH());
 //			Assert.isTrue(!userService.getUserByEmail(repeatedEmail).getLastName().equals("Monzon"), "El usuario repetido no se inserto" );
 	}
-	
+
 	// PR05. Inicio de sesión con datos válidos (administrador).
 	@Test
 	public void PR05() {
-		//Vamos al formulario de logueo.
+		// Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		// Rellenamos el formulario
 		PO_LoginView.fillForm(driver, "juansdi@uniovi.es", "123456");
 		// Comprobamos que entramos en la pagina privada de Alumno
-		PO_NavView.checkElement(driver, "text", PO_NavView.getP().getString("nav.message.users", PO_Properties.getSPANISH()));
+		PO_NavView.checkElement(driver, "text",
+				PO_NavView.getP().getString("nav.message.users", PO_Properties.getSPANISH()));
 		PO_PrivateView.logout(driver);
 	}
-	
+
 	// PR06. Inicio de sesión con datos válidos (usuario estándar).
-		@Test
-		public void PR06() {
-			//Vamos al formulario de logueo.
-			PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-			// Rellenamos el formulario
-			PO_LoginView.fillForm(driver, "jaimitosdi@uniovi.es", "123456");
-			// Comprobamos que entramos en la pagina privada de Alumno
-			PO_NavView.checkElement(driver, "text", PO_NavView.getP().getString("nav.message.users", PO_Properties.getSPANISH()));
-			PO_PrivateView.logout(driver);
-		}
+	@Test
+	public void PR06() {
+		// Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "jaimitosdi@uniovi.es", "123456");
+		// Comprobamos que entramos en la pagina privada de Alumno
+		PO_NavView.checkElement(driver, "text",
+				PO_NavView.getP().getString("nav.message.users", PO_Properties.getSPANISH()));
+		PO_PrivateView.logout(driver);
+	}
 
-		// PR07. Inicio de sesión con datos inválidos (usuario estándar, campo email y contraseña vacíos).
-		@Test
-		public void PR07() {
-			//Vamos al formulario de logueo.
-			PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-			// Rellenamos el formulario
-			PO_LoginView.fillForm(driver, "", "");
-			// Comprobamos que entramos en la pagina privada de Alumno
-			PO_LoginView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
-		}
+	// PR07. Inicio de sesión con datos inválidos (usuario estándar, campo email y
+	// contraseña vacíos).
+	@Test
+	public void PR07() {
+		// Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "", "");
+		// Comprobamos que entramos en la pagina privada de Alumno
+		PO_LoginView.checkKey(driver, "login.title", PO_Properties.getSPANISH());
+	}
 
-		// PR08. Inicio de sesión con datos válidos (usuario estándar, email existente, pero contraseña incorrecta).
-		@Test
-		public void PR08() {
-			//Vamos al formulario de logueo.
-			PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-			// Rellenamos el formulario
-			PO_LoginView.fillForm(driver, "jaimitosdi@uniovi.es", "12");
-			// Comprobamos que entramos en la pagina privada de Alumno
-			PO_LoginView.checkKey(driver, "Error.login.match", PO_Properties.getSPANISH()); 
-		}
+	// PR08. Inicio de sesión con datos válidos (usuario estándar, email existente,
+	// pero contraseña incorrecta).
+	@Test
+	public void PR08() {
+		// Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "jaimitosdi@uniovi.es", "12");
+		// Comprobamos que entramos en la pagina privada de Alumno
+		PO_LoginView.checkKey(driver, "login.title", PO_Properties.getSPANISH());
+	}
 
 //	// PR06. Prueba del formulario de registro. DNI repetido en la BD, nombre corto,
 //	// ...
