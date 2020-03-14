@@ -38,6 +38,10 @@ public class InsertSampleDataService {
 		User user3 = new User("jaimitosdi@uniovi.es", "Jaimito", "González");
 		user3.setPassword("123456");
 		user3.setRole(rolesService.getRoles()[0]);
+		
+		User user5 = new User("laurapalmer@twinpeaks.com", "Laura", "Palmer");
+		user5.setPassword("123456");
+		user5.setRole(rolesService.getRoles()[0]);
 
 		// Admin
 		User user4 = new User("juansdi@uniovi.es", "Juan", "Pérez");
@@ -54,6 +58,11 @@ public class InsertSampleDataService {
 		invitationMaxPepito.setSender(user1); // Max sends the invitation
 		invitationMaxPepito.setReceiver(user2); // Pepito receives the invitation
 		invitationService.addInvitation(invitationMaxPepito); // We create the invitation
+		
+		Invitation invitationLauraPepito = new Invitation();
+		invitationMaxPepito.setSender(user5); // Laura sends the invitation
+		invitationMaxPepito.setReceiver(user2); // Pepito receives the invitation
+		invitationService.addInvitation(invitationLauraPepito); // We create the invitation
 		
 		// Friends
 		Friendship friendshipMaxJaimito = new Friendship();
