@@ -92,8 +92,7 @@ public class Sdi1920Entrega1411408ApplicationTests {
 			PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 			// Rellenamos el formulario.
 			PO_RegisterView.fillForm(driver, "", "", "", "123456", "123456");
-			PO_RegisterView.checkElement(driver, "text-danger", 
-					PO_RegisterView.getP().getString("Error.empty", PO_Properties.getSPANISH()));
+			PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
 		}
 		
 	// PR03. Registro de Usuario con datos inválidos (repetición de contraseña inválida).
@@ -103,8 +102,7 @@ public class Sdi1920Entrega1411408ApplicationTests {
 			PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 			// Rellenamos el formulario.
 			PO_RegisterView.fillForm(driver, "albeto@uniovi.es", "Alberto", "Monzon", "123456", "12");
-			PO_RegisterView.checkElement(driver, "text-danger", 
-					PO_RegisterView.getP().getString("Error.signup.passwordConfirm.coincidence", PO_Properties.getSPANISH()));
+			PO_RegisterView.checkKey(driver, "Error.signup.passwordConfirm.coincidence", PO_Properties.getSPANISH()); 
 //			Assert.isNull(userService.getUserByEmail("albeto@uniovi.es"),"Usuario No Encontrado");
 	}
 	
@@ -116,8 +114,7 @@ public class Sdi1920Entrega1411408ApplicationTests {
 			PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 			// Rellenamos el formulario.
 			PO_RegisterView.fillForm(driver, repeatedEmail, "Alberto", "Monzon", "123456", "12");
-			PO_RegisterView.checkElement(driver, "text-danger", 
-					PO_RegisterView.getP().getString("Error.signup.email.duplicate", PO_Properties.getSPANISH()));
+			PO_RegisterView.checkKey(driver, "Error.signup.email.duplicate", PO_Properties.getSPANISH());
 //			Assert.isTrue(!userService.getUserByEmail(repeatedEmail).getLastName().equals("Monzon"), "El usuario repetido no se inserto" );
 	}
 	
@@ -153,8 +150,18 @@ public class Sdi1920Entrega1411408ApplicationTests {
 			// Rellenamos el formulario
 			PO_LoginView.fillForm(driver, "", "");
 			// Comprobamos que entramos en la pagina privada de Alumno
-			PO_NavView.checkElement(driver, "text", PO_NavView.getP().getString("nav.message.users", PO_Properties.getSPANISH()));
-			PO_PrivateView.logout(driver);
+			PO_LoginView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
+		}
+
+		// PR08. Inicio de sesión con datos válidos (usuario estándar, email existente, pero contraseña incorrecta).
+		@Test
+		public void PR08() {
+			//Vamos al formulario de logueo.
+			PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+			// Rellenamos el formulario
+			PO_LoginView.fillForm(driver, "jaimitosdi@uniovi.es", "12");
+			// Comprobamos que entramos en la pagina privada de Alumno
+			PO_LoginView.checkKey(driver, "Error.login.match", PO_Properties.getSPANISH()); 
 		}
 
 //	// PR06. Prueba del formulario de registro. DNI repetido en la BD, nombre corto,

@@ -21,6 +21,7 @@ import com.uniovi.services.InvitationService;
 import com.uniovi.services.RolesService;
 import com.uniovi.services.SecurityService;
 import com.uniovi.services.UsersService;
+import com.uniovi.validators.LoginValidator;
 import com.uniovi.validators.SignUpFormValidator;
 
 @Controller
@@ -41,6 +42,9 @@ public class UsersController {
 	@Autowired
 	private SignUpFormValidator signUpFormValidator;
 
+	@Autowired
+	private LoginValidator loginValidator;
+	
 	@RequestMapping("/user/list")
 	public String getListado(Model model, Pageable pageable, @RequestParam(value = "", required = false) String searchText) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -82,6 +86,15 @@ public class UsersController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {
 		return "login";
+	}
+	
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login(@Validated User user, BindingResult result) {
+		loginValidator.validate(user, result);
+		if (result.hasErrors()) {
+			return "login";
+		}
+		return "redirect:home";
 	}
 
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)

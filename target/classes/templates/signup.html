@@ -12,7 +12,7 @@
 				<label class="control-label col-sm-2" for="email" th:text="#{signup.message.email}"></label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="email"
-						th:placeholder="#{signup.placeholder.email}" required="true" /> 
+						th:placeholder="#{signup.placeholder.email}"/> 
 						<span class="text-danger" th:if="${#fields.hasErrors('email')}"
 							th:errors="*{email}">
 				</div>
@@ -21,14 +21,18 @@
 				<label class="control-label col-sm-2" for="name" th:text="#{signup.message.name}"></label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="name"
-						th:placeholder="#{signup.placeholder.name}" required="true" />						
+						th:placeholder="#{signup.placeholder.name}"/>
+						<span class="text-danger" th:if="${#fields.hasErrors('name')}"
+							th:errors="*{name}">						
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="lastName" th:text="#{signup.message.lastName}"></label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="lastName"
-						th:placeholder="#{signup.placeholder.lastName}" required="true" />
+						th:placeholder="#{signup.placeholder.lastName}"/>
+					<span class="text-danger" th:if="${#fields.hasErrors('lastName')}"
+							th:errors="*{lastName}">
 				</div>
 			</div>
 			<div class="form-group">
@@ -36,6 +40,8 @@
 				<div class="col-sm-10">
 					<input type="password" class="form-control" name="password"
 						th:placeholder="#{signup.placeholder.password}" /> 
+					<span class="text-danger" th:if="${#fields.hasErrors('password')}"
+							th:errors="*{passsword}">
 				</div>
 			</div>
 			<div class="form-group">
@@ -46,6 +52,8 @@
 						<span class="text-danger"
 							th:if="${#fields.hasErrors('passwordConfirm')}"
 							th:errors="*{passwordConfirm}" />
+							<span class="text-danger" th:if="${#fields.hasErrors('passwordConfirm')}"
+							th:errors="*{passwordConfirm}">
 				</div>
 			</div>
 			<div class="form-group">
