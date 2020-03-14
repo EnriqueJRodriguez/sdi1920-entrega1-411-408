@@ -2,6 +2,7 @@ package com.uniovi.controllers;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -90,7 +91,13 @@ public class UsersController {
 	@RequestMapping(value = "/user/{id}/invitation/send", method = RequestMethod.GET)
 	public String sendInvitation(Model model, @PathVariable Long id) {
 		usersService.createUserInvitation(id);
-		return "redirect:/user/list";
+
+		@SuppressWarnings("unchecked")
+		Map<Long,Boolean> invitations = (Map<Long, Boolean>) model.getAttribute("invitations");
+		invitations.replace(id, true);
+		model.addAttribute("invitations", invitations);
+
+		return "redirect: /user/list";
 	}
 	
 	@RequestMapping("/user/list/update")
