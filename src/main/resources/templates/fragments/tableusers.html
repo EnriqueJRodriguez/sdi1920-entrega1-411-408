@@ -13,7 +13,7 @@
 				<td th:text="${user.name}"></td>
 				<td th:text="${user.lastName}"></td>
 				<td>
-					<div>
+					<div th:if="${invitations.get(user.id) == false}">
 						<button type="button" th:id="${'invitationButton' + user.id}"
 							class="btn btn-info" th:text="#{users.table.friends.add}"></button>
 						<script th:inline="javascript">
