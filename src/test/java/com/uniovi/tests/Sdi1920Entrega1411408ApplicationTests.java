@@ -202,7 +202,7 @@ public class Sdi1920Entrega1411408ApplicationTests {
 	}
 
 	// PR16. Desde el listado de usuarios de la aplicación,enviar una invitación de
-	// amistad a un usuario al que ya le habíamos enviadola invitación previamente
+	// amistad a un usuario al que ya le habíamos enviado la invitación previamente
 	@Test
 	public void PR16() {
 		// Vamos al formulario de logueo.
@@ -214,7 +214,7 @@ public class Sdi1920Entrega1411408ApplicationTests {
 				PO_NavView.getP().getString("nav.message.users", PO_Properties.getSPANISH()));
 		// Mandamos una invitatión a la usuario Max
 		List<WebElement> botones = PO_View.checkElement(driver, "free",
-				"//td[contains(text(), 'max@arcadia.com')]/following-sibling::*/btn[contains(@href, '/user/{id}/invitation/send')]");
+				"//td[contains(text(), 'max@arcadia.com')]/following-sibling::*/button[contains(@href, '/user/{id}/invitation/send')]");
 		// Comprobamos que el botón no se muestra ya que existe una invitación
 		// entre éstos dos usuarios
 		assertEquals(true, botones.isEmpty());
@@ -239,6 +239,53 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		// Contamos las invitaciones (Debería haber una de Max y otra de Laura)
 		elementos = PO_View.checkElement(driver, "free", "//td/div");
 		assertEquals(2, elementos.size());
+	}
+
+	// PR18. Sobre el listado de invitaciones recibidas. Hacer click en el
+	// botón/enlace de una de ellas y comprobar que dicha solicitud desaparece del
+	// listado de invitaciones.
+	@Test
+	public void PR18() {
+		// Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "pepitosdi@uniovi.es", "123456");
+		// Comprobamos que entramos en la pagina privada del usuario
+		PO_NavView.checkElement(driver, "text",
+				PO_NavView.getP().getString("nav.message.users", PO_Properties.getSPANISH()));
+		// Pinchamos en la opción de menú de invitaciones
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'invitations-menu')]/a");
+		elementos.get(0).click();
+		// Pinchamos en la opción de lista de invitaciones.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/invitation/list')]");
+		elementos.get(0).click();
+		// Aceptamos una de las dos invitaciones y comprobamos que solo queda una
+		elementos = PO_View.checkElement(driver, "free", "//td/div/button");
+		assertEquals(2, elementos.size());
+		elementos.get(0).click();
+		assertEquals(1, elementos.size());
+	}
+
+	// PR19. Mostrar el listadode amigos de unusuario. Comprobar que el listado
+	// contiene los amigos que deben ser.
+	@Test
+	public void PR19() {
+		// Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "max@arcadia.com", "123456");
+		// Comprobamos que entramos en la pagina privada del usuario
+		PO_NavView.checkElement(driver, "text",
+				PO_NavView.getP().getString("nav.message.users", PO_Properties.getSPANISH()));
+		// Pinchamos en la opción de menú de amigos
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'friends-menu')]/a");
+		elementos.get(0).click();
+		// Pinchamos en la opción de lista de amigos.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/friend/list')]");
+		elementos.get(0).click();
+		// Miramos que tenemos un amigo
+		elementos = PO_View.checkElement(driver, "free", "//tr[contains(text(), 'jaimitosdi@uniovi.es')]");
+		assertEquals(1, elementos.size());
 	}
 
 //	// PR06. Prueba del formulario de registro. DNI repetido en la BD, nombre corto,
