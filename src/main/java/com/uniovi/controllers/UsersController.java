@@ -49,12 +49,14 @@ public class UsersController {
 		
 		if (searchText != null && !searchText.isEmpty()) {
 			List<User> users = usersService.getUsersByNamesOrEmailUser(searchText, activeUser);
+			Map<Long,Boolean> invitations = invitationService.calculateInvitationsForUser(activeUser, users);
 			model.addAttribute("usersList", users);
-			model.addAttribute("invitations", invitationService.calculateInvitationsForUser(activeUser, users));
+			model.addAttribute("invitations", invitations);
 		} else {
 			List<User> users = usersService.getUsersForListing(activeUser);
+			Map<Long,Boolean> invitations = invitationService.calculateInvitationsForUser(activeUser, users);
 			model.addAttribute("usersList", users);
-			model.addAttribute("invitations", invitationService.calculateInvitationsForUser(activeUser, users));
+			model.addAttribute("invitations", invitations);
 			
 		}		
 		return "user/list";
@@ -105,9 +107,10 @@ public class UsersController {
 		String email = principal.getName();
 		User user = usersService.getUserByEmail(email);
 		List<User> users = usersService.getUsersForListing(user);
+		Map<Long,Boolean> invitations = invitationService.calculateInvitationsForUser(user, users);
 		model.addAttribute("usersList", users);
-		model.addAttribute("invitations", invitationService.calculateInvitationsForUser(user, users));
-		return "user/list :: tableusers";
+		model.addAttribute("invitations", invitations);
+		return "/user/list :: tableusers";
 	}
 	
 }
