@@ -49,12 +49,14 @@ public class UsersController {
 
 		if (searchText != null && !searchText.isEmpty()) {
 			Page<User> users = usersService.getUsersByNamesOrEmailUser(pageable, searchText, activeUser);
-			model.addAttribute("usersList", users);
+			model.addAttribute("usersList", users.getContent());
 			model.addAttribute("invitations", invitationService.calculateInvitationsForUser(pageable, activeUser, users));
+			model.addAttribute("page", users);
 		} else {
 			Page<User> users = usersService.getUsersForListing(pageable, activeUser);
-			model.addAttribute("usersList", users);
+			model.addAttribute("usersList", users.getContent());
 			model.addAttribute("invitations", invitationService.calculateInvitationsForUser(pageable, activeUser, users));
+			model.addAttribute("page", users);
 		}
 		return "user/list";
 	}
@@ -98,8 +100,9 @@ public class UsersController {
 		String email = principal.getName();
 		User user = usersService.getUserByEmail(email);
 		Page<User> users = usersService.getUsersForListing(pageable, user);
-		model.addAttribute("usersList", users);
+		model.addAttribute("usersList", users.getContent());
 		model.addAttribute("invitations", invitationService.calculateInvitationsForUser(pageable, user, users));
+		model.addAttribute("page", users);
 		return "user/list :: tableusers";
 	}
 
