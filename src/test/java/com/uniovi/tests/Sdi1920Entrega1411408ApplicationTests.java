@@ -335,22 +335,15 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		PO_LoginView.fillForm(driver, "pepitosdi@uniovi.es", "123456");
 		// Comprobamos que entramos en la pagina privada del usuario
 		PO_NavView.checkElement(driver, "text",
-					PO_NavView.getP().getString("nav.message.users", PO_Properties.getSPANISH()));
-		// Vamos al formulario de logueo.
-		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-		// Rellenamos el formulario
-		PO_LoginView.fillForm(driver, "pepitosdi@uniovi.es", "123456");
-		// Comprobamos que entramos en la pagina privada del usuario
-		PO_NavView.checkElement(driver, "text",
 				PO_NavView.getP().getString("nav.message.users", PO_Properties.getSPANISH()));
 		// Mandamos una invitatión a la usuario Max
 		List<WebElement> botones = PO_View.checkElement(driver, "free",
-				"/html/body/div[1]/div[1]/table/tbody/tr[td[contains(text(), 'max@arcadia.com')]]/td[4]/div/button");
+				"/html/body/div[1]/div[1]/table/tbody/tr[td[contains(text(), 'max@arcadia.com')]]/td[4]");
 		// Comprobamos que el botón no se muestra ya que existe una invitación
 		// entre éstos dos usuarios
-		assertEquals(true, botones.isEmpty());
+		assertEquals(true, botones.get(0).getText().equals(""));
 		// Nos desconectamos
-				PO_PrivateView.logout(driver);
+		PO_PrivateView.logout(driver);
 	}
 
 	// PR17. Mostrar el listado de invitaciones de amistad recibidas
