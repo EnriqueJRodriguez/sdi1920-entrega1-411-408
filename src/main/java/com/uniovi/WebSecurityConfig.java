@@ -42,7 +42,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/invitation/{id}/accept").hasAnyAuthority("ROLE_STANDARD, ROLE_ADMIN")
 				.antMatchers("/invitation/**").hasAnyAuthority("ROLE_ADMIN")	
 				.antMatchers("/friend/list").hasAnyAuthority("ROLE_STANDARD, ROLE_ADMIN")
-				.antMatchers("/friend/**").hasAnyAuthority("ROLE_ADMIN")	
+				.antMatchers("/friend/**").hasAnyAuthority("ROLE_ADMIN")
+				.antMatchers("/publication/list").hasAnyAuthority("ROLE_STANDARD, ROLE_ADMIN")
+				.antMatchers("/publication/add").hasAnyAuthority("ROLE_STANDARD, ROLE_ADMIN")
+				.antMatchers("/publication/**").hasAnyAuthority("ROLE_ADMIN")
 				.anyRequest().authenticated().and().formLogin()
 				.loginPage("/login").permitAll().defaultSuccessUrl("/user/list").and().logout().permitAll();
 	}

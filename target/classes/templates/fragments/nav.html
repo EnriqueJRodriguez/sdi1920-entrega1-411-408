@@ -22,6 +22,7 @@
 					</a>
 					<ul class="dropdown-menu">
 						<li><a href="/user/list" th:text="#{nav.message.users.list}"></a></li>
+						<li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/user/all" th:text="#{nav.message.users.all}"></a></li>
 					</ul>
 				</li>
 				<li id="invitations-menu" class="dropdown" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_STANDARD')">

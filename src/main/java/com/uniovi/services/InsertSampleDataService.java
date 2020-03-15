@@ -54,12 +54,17 @@ public class InsertSampleDataService {
 		User user4 = new User("juansdi@uniovi.es", "Juan", "Pérez");
 		user4.setPassword("123456");
 		user4.setRole(rolesService.getRoles()[1]);
+		
+		User user6 = new User("legoshi@beastars.es", "Legoshi", "Wolf");
+		user6.setPassword("123456");
+		user6.setRole(rolesService.getRoles()[1]);
 
 		usersService.addUser(user1);
 		usersService.addUser(user2);
 		usersService.addUser(user3);
 		usersService.addUser(user4);
 		usersService.addUser(user5);
+		usersService.addUser(user6);
 		
 		// Invitations
 		Invitation invitationMaxPepito = new Invitation();
