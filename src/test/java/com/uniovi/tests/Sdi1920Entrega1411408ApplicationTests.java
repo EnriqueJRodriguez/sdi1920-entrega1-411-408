@@ -25,6 +25,7 @@ import com.uniovi.tests.pageobjects.PO_LoginView;
 import com.uniovi.tests.pageobjects.PO_NavView;
 import com.uniovi.tests.pageobjects.PO_PrivateView;
 import com.uniovi.tests.pageobjects.PO_Properties;
+import com.uniovi.tests.pageobjects.PO_Publications;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
 import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.util.SeleniumUtils;
@@ -472,6 +473,115 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		driver.get(URL+"/user/all");
 		// Comprobamos que nos salta el error de accion prohibida (HTTP STATUS 403).
 		assertEquals(true, driver.getTitle().equals("HTTP Status 403 – Forbidden"));
+		// Nos desconectamos
+		driver.navigate().back();
+		PO_PrivateView.logout(driver);
+	}
+	
+	// PR24. Ir al formulario crear publicaciones, rellenarla con datos válidos y pulsar el botón Submit.
+	//		 Comprobar que la publicación sale en el listado de publicaciones de dicho usuario.
+	@Test
+	public void PR24() {
+		// Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario con un usuario estandar
+		PO_LoginView.fillForm(driver, "max@arcadia.com", "123456");
+		// Comprobamos que entramos en la pagina privada del usuario
+		PO_NavView.checkElement(driver, "text",
+					PO_NavView.getP().getString("nav.message.users", PO_Properties.getSPANISH()));		
+		// Accedemos al formulario de crear publicaciones.
+		driver.get(URL+"/publication/add");
+		// Comprobamos que entramos en la pagina publicaciones
+		PO_NavView.checkKey(driver,"publications.add.title", PO_Properties.getSPANISH());
+		// Rellenamos el formulario
+		PO_Publications.fillForm(driver, "Primera Publicacion", "Esta es mi primera publicacion");
+		// Accedemos al listado de mis publicaciones
+		driver.get(URL+"/publication/list");
+		// Comprobamos que entramos en la pagina publicaciones
+		PO_NavView.checkKey(driver,"publications.title", PO_Properties.getSPANISH());
+		// Comprobamos que esta la publicacion
+		PO_View.checkElement(driver, "free",
+				"/html/body/div[1]/div[1]/table/tbody/tr[td[contains(text(), 'Primera Publicacion')]]");
+		// Nos desconectamos
+		PO_PrivateView.logout(driver);
+	}
+	
+	// PR25. Ir al formulario de crear publicaciones, rellenarla con datos inválidos (campo título vacío) y
+	//		 pulsar el botón Submit. Comprobar que se muestra el mensaje de campo obligatorio.
+	@Test
+	public void PR25() {
+		// Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario con un usuario estandar
+		PO_LoginView.fillForm(driver, "max@arcadia.com", "123456");
+		// Comprobamos que entramos en la pagina privada del usuario
+		PO_NavView.checkElement(driver, "text",
+					PO_NavView.getP().getString("nav.message.users", PO_Properties.getSPANISH()));		
+		// Accedemos al formulario de crear publicaciones.
+		driver.get(URL+"/publication/add");
+		// Comprobamos que entramos en la pagina publicaciones
+		PO_Publications.checkKey(driver,"publications.add.title", PO_Properties.getSPANISH());
+		// Rellenamos el formulario
+		PO_Publications.fillForm(driver, "", "Esta es mi primera publicacion");
+		// Comprobamos el mensaje de error
+		PO_Publications.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
+		// Comprobamos que seguimos en la pestaña de añadir publicaciones
+		PO_Publications.checkKey(driver,"publications.add.title", PO_Properties.getSPANISH());
+		// Accedemos al listado de mis publicaciones
+		driver.get(URL+"/publication/list");
+		// Comprobamos que entramos en la pagina publicaciones
+		PO_Publications.checkKey(driver,"publications.title", PO_Properties.getSPANISH());
+		// Comprobamos que esta la publicacion del test anterior + publicacion por defecto
+		List<WebElement> elementos = PO_Publications.checkElement(driver, "free",
+				"/html/body/div[1]/div[1]/table/tbody/tr");
+		assertEquals(2, elementos.size());
+		// Nos desconectamos
+		PO_PrivateView.logout(driver);
+	}
+
+	// PR26. Mostrar el listado de publicaciones de un usuario y comprobar que se muestran todas las que
+	//       existen para dicho usuario. 
+	@Test
+	public void PR26() {
+		// Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario con un usuario estandar
+		PO_LoginView.fillForm(driver, "max@arcadia.com", "123456");
+		// Comprobamos que entramos en la pagina privada del usuario
+		PO_NavView.checkElement(driver, "text",
+					PO_NavView.getP().getString("nav.message.users", PO_Properties.getSPANISH()));		
+		// Accedemos al listado de mis publicaciones
+		driver.get(URL+"/publication/list");
+		// Comprobamos que entramos en la pagina publicaciones
+		PO_Publications.checkKey(driver,"publications.title", PO_Properties.getSPANISH());
+		// Comprobamos que esta la publicacion del test anterior + publicacion por defecto
+		List<WebElement> elementos = PO_Publications.checkElement(driver, "free",
+				"/html/body/div[1]/div[1]/table/tbody/tr");
+		assertEquals(2, elementos.size());
+		// Nos desconectamos
+		PO_PrivateView.logout(driver);
+	}
+
+	// PR31. Mostrar el listado de usuarios y comprobar que se muestran todos los que existen en el sistema. 
+	@Test
+	public void PR31() {
+		// Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario con usuario admin
+		PO_LoginView.fillForm(driver, "legoshi@beastars.es", "123456");
+		// Navegamos hasta la opcion de menu de administrador
+		driver.get(URL+"/user/all");
+		// Comprobamos que aparecen usurios normales
+		PO_View.checkElement(driver, "text", "max@arcadia.com");
+		PO_View.checkElement(driver, "text", "pepitosdi@uniovi.es");
+		PO_View.checkElement(driver, "text", "laurapalmer@twinpeaks.com");
+		PO_View.checkElement(driver, "text", "jaimitosdi@uniovi.es");
+		// Comprobamos que sale el otro administrador
+		PO_View.checkElement(driver, "text", "juansdi@uniovi.es");
+		// Comprobamos que no sale el propio usuario logueado
+		PO_View.checkNoElement(driver, "legoshi@beastars.es");
+		// Nos desconectamos
+		PO_PrivateView.logout(driver);
 	}
 	
 	private void pr20checks(int language) {
