@@ -16,7 +16,7 @@
 		<p>
 			<span th:text="#{users.message.users}" th:inline="text"></span>
 		</p>
-		<div th:replace="fragments/tableusers" id="tableUsers" />
+		<div th:replace="fragments/tableusers" th:fragment="tableusers" />
 		<footer th:replace="fragments/pagination"/>
 	</div>
 	<footer th:replace="fragments/footer" />
