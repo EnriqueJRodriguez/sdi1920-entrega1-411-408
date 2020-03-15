@@ -67,4 +67,8 @@ public class PO_View {
 	static public void checkNoElement(WebDriver driver, String key, int locale) {
 		SeleniumUtils.textoNoPresentePagina(driver, p.getString(key, locale));	
 	}
+	
+	static public void checkNoElement(WebDriver driver, String text) {
+		SeleniumUtils.textoNoPresentePagina(driver, text);	
+	}
 }
