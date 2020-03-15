@@ -386,10 +386,14 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/invitation/list')]");
 		elementos.get(0).click();
 		// Aceptamos una de las dos invitaciones y comprobamos que solo queda una
-		elementos = PO_View.checkElement(driver, "free", "//td/div/button");
+		elementos = PO_View.checkElement(driver, "free", "//td/div");
 		assertEquals(2, elementos.size());
-		elementos.get(0).click();
+		elementos.get(0).findElement(By.className("btn")).click();
+		driver.navigate().refresh();
+		elementos = PO_View.checkElement(driver, "free", "//td/div");
 		assertEquals(1, elementos.size());
+		// Nos desconectamos
+		PO_PrivateView.logout(driver);
 	}
 
 	// PR19. Mostrar el listadode amigos de unusuario. Comprobar que el listado
@@ -412,6 +416,8 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		// Miramos que tenemos un amigo
 		elementos = PO_View.checkElement(driver, "free", "//tr[contains(text(), 'jaimitosdi@uniovi.es')]");
 		assertEquals(1, elementos.size());
+		// Nos desconectamos
+		PO_PrivateView.logout(driver);
 	}
 
 }
