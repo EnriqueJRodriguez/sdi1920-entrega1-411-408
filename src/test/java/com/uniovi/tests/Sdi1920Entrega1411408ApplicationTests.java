@@ -37,14 +37,14 @@ public class Sdi1920Entrega1411408ApplicationTests {
 	// Hugo
 
 	// GNU/Linux
-	static String PathFirefox = "/usr/bin/firefox";
-	static String GeckDriver024 = "/home/asuka/Universidad/Tercero/SDI/Lab/SecondPart/Other_files/Materials/geckodriver";
+//	static String PathFirefox = "/usr/bin/firefox";
+//	static String GeckDriver024 = "/home/asuka/Universidad/Tercero/SDI/Lab/SecondPart/Other_files/Materials/geckodriver";
 
 	// Enrique
 
 	// Windows
-//	static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-//	static String GeckDriver024 = "C:\\Users\\EnriqueJRodriguez\\Downloads\\OneDrive_2020-03-02\\PL-SDI-Ses5-material\\geckodriver024win64.exe";
+	static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
+	static String GeckDriver024 = "C:\\Users\\EnriqueJRodriguez\\Downloads\\OneDrive_2020-03-02\\PL-SDI-Ses5-material\\geckodriver024win64.exe";
 
 	// Same for all OS
 	static WebDriver driver = getDriver(PathFirefox, GeckDriver024);
@@ -445,7 +445,35 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		// Comprobamos que estamos en el login
 		PO_View.checkKey(driver, "login.title", PO_Properties.getSPANISH());
 	}
+	
+	// PR22. Intentar acceder sin estar autenticado a la opción de listado de publicaciones de un usuario
+	//       estándar. Se deberá volver al formulario de login.
+	@Test
+	public void PR22() {
+		// Intentamos acceder al listado de usuarios
+		driver.get(URL+"/publication/list");
+		// Comprobamos que estamos en el login
+		PO_View.checkKey(driver, "login.title", PO_Properties.getSPANISH());
+	}	
 
+	// PR23. Estando autenticado como usuario estándar intentar acceder a una opción disponible solo
+	//       para usuarios administradores (Se puede añadir una opción cualquiera en el menú). Se deberá indicar un
+	//       mensaje de acción prohibida.
+	@Test
+	public void PR23() {
+		// Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario con un usuario estandar
+		PO_LoginView.fillForm(driver, "max@arcadia.com", "123456");
+		// Comprobamos que entramos en la pagina privada del usuario
+		PO_NavView.checkElement(driver, "text",
+					PO_NavView.getP().getString("nav.message.users", PO_Properties.getSPANISH()));		
+		// Intentamos acceder al listado de usuarios.
+		driver.get(URL+"/user/all");
+		// Comprobamos que nos salta el error de accion prohibida (HTTP STATUS 403).
+		assertEquals(true, driver.getTitle().equals("HTTP Status 403 – Forbidden"));
+	}
+	
 	private void pr20checks(int language) {
 		// Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
