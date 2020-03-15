@@ -52,6 +52,7 @@ public class InsertSampleDataService {
 		usersService.addUser(user2);
 		usersService.addUser(user3);
 		usersService.addUser(user4);
+		usersService.addUser(user5);
 		
 		// Invitations
 		Invitation invitationMaxPepito = new Invitation();
@@ -60,8 +61,8 @@ public class InsertSampleDataService {
 		invitationService.addInvitation(invitationMaxPepito); // We create the invitation
 		
 		Invitation invitationLauraPepito = new Invitation();
-		invitationMaxPepito.setSender(user5); // Laura sends the invitation
-		invitationMaxPepito.setReceiver(user2); // Pepito receives the invitation
+		invitationLauraPepito.setSender(user5); // Laura sends the invitation
+		invitationLauraPepito.setReceiver(user2); // Pepito receives the invitation
 		invitationService.addInvitation(invitationLauraPepito); // We create the invitation
 		
 		// Friends
