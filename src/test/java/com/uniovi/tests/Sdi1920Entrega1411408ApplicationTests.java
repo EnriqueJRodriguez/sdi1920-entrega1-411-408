@@ -414,7 +414,7 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/friend/list')]");
 		elementos.get(0).click();
 		// Miramos que tenemos un amigo
-		elementos = PO_View.checkElement(driver, "free", "//tr[contains(text(), 'jaimitosdi@uniovi.es')]");
+		elementos = PO_View.checkElement(driver, "free", "//td[contains(text(), 'jaimitosdi@uniovi.es')]");
 		assertEquals(1, elementos.size());
 		// Nos desconectamos
 		PO_PrivateView.logout(driver);
