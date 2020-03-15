@@ -45,7 +45,7 @@ public class InvitationsController {
 		Page<Invitation> invitations = invitationService.getInvitationsForUser(pageable, user);
 		model.addAttribute("invitationsList", invitations.getContent());
 		model.addAttribute("page", invitations);
-		return "invitation/list :: tableinvitations";
+		return "invitation/list :: tableInvitations";
 	}
 	
 	@RequestMapping(value = "/invitation/{id}/accept", method = RequestMethod.GET)
