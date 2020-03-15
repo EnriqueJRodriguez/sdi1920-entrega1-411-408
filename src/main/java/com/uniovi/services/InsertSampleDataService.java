@@ -1,5 +1,8 @@
 package com.uniovi.services;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.Friendship;
 import com.uniovi.entities.Invitation;
+import com.uniovi.entities.Publication;
 import com.uniovi.entities.User;
 
 @Service
@@ -23,6 +27,9 @@ public class InsertSampleDataService {
 	
 	@Autowired
 	private FriendshipService friendshipService;
+	
+	@Autowired
+	private PublicationService publicationService;
 
 	@PostConstruct
 	public void init() {
@@ -70,6 +77,14 @@ public class InsertSampleDataService {
 		friendshipMaxJaimito.setUser1(user1); // Max
 		friendshipMaxJaimito.setUser2(user3); // Jaimito
 		friendshipService.addFriendship(friendshipMaxJaimito); // We create the friendship
+		
+		// Publication
+		Publication publicationMax = new Publication();
+		publicationMax.setAuthor(user1);
+		publicationMax.setDate(new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss").format(Calendar.getInstance().getTime()));
+		publicationMax.setTitle("Arcadia Bay");
+		publicationMax.setContent("Arcadia Bay is the home of Blackwell Academy");
+		publicationService.addPublication(publicationMax);
 		
 	}
 

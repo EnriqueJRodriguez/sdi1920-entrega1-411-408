@@ -37,14 +37,14 @@ public class Sdi1920Entrega1411408ApplicationTests {
 	// Hugo
 
 	// GNU/Linux
-//	static String PathFirefox = "/usr/bin/firefox";
-//	static String GeckDriver024 = "/home/asuka/Universidad/Tercero/SDI/Lab/SecondPart/Other_files/Materials/geckodriver";
+	static String PathFirefox = "/usr/bin/firefox";
+	static String GeckDriver024 = "/home/asuka/Universidad/Tercero/SDI/Lab/SecondPart/Other_files/Materials/geckodriver";
 
 	// Enrique
 
 	// Windows
-	static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-	static String GeckDriver024 = "C:\\Users\\EnriqueJRodriguez\\Downloads\\OneDrive_2020-03-02\\PL-SDI-Ses5-material\\geckodriver024win64.exe";
+//	static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
+//	static String GeckDriver024 = "C:\\Users\\EnriqueJRodriguez\\Downloads\\OneDrive_2020-03-02\\PL-SDI-Ses5-material\\geckodriver024win64.exe";
 
 	// Same for all OS
 	static WebDriver driver = getDriver(PathFirefox, GeckDriver024);

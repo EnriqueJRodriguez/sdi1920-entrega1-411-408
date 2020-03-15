@@ -40,6 +40,15 @@
 						<li><a href="/friend/list" th:text="#{nav.message.friends.list}"></a></li>
 					</ul>
 				</li>
+				<li id="publications-menu" class="dropdown" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_STANDARD')">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#" th:text="#{nav.message.publications}">
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="/publication/add" th:text="#{nav.message.publications.add}"></a></li>					
+						<li><a href="/publication/list" th:text="#{nav.message.publications.list}"></a></li>
+					</ul>
+				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a id="btnLanguage" href="

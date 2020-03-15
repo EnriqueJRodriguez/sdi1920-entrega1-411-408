@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head" />
+<body>
+	<!--Barra de Navegación superior -->
+	<nav th:replace="fragments/nav" />
+	<div class="container">
+		<h2 th:text="#{publications.title}"></h2>
+		<p>
+			<span th:text="#{publications.message.publications}" th:inline="text"></span>
+		</p>
+		<div class="table-responsive">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th th:text="#{publications.table.date}"></th>
+						<th th:text="#{publications.table.title}"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="publication: ${publicationsList}">						
+						<td th:text="${publication.date}"></td>
+						<td th:text="${publication.title}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<footer th:replace="fragments/pagination"/>
+	</div>
+	<footer th:replace="fragments/footer" />	
+</body>
+</html>
