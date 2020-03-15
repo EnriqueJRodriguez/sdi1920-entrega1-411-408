@@ -419,5 +419,57 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		// Nos desconectamos
 		PO_PrivateView.logout(driver);
 	}
+	
+	// PR20. Visualizar al menos cuatro páginas en Español/Inglés/Español 
+	@Test
+	public void PR20() {
+		// Hacemos las comprobaciones en español
+		pr20checks(PO_Properties.getSPANISH());
+		// Cambiamos de idioma a ingles
+		PO_NavView.changeIdiom(driver, PO_View.getP().getString("language.en", PO_Properties.getSPANISH()));
+		// Hacemos las comprobaciones en ingles
+		pr20checks(PO_Properties.getENGLISH());
+		// Cambiamos de idioma a español de nuevo
+		PO_NavView.changeIdiom(driver, PO_View.getP().getString("language.es", PO_Properties.getENGLISH()));
+		// Hacemos las comprobaciones en español
+		pr20checks(PO_Properties.getSPANISH());
+	}
+
+	private void pr20checks(int language) {
+		// Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		
+		// Comprobamos que estamos en el login
+		PO_View.checkKey(driver, "login.title", language);
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "max@arcadia.com", "123456");
+		
+		// Comprobamos que entramos en la pagina privada del usuario
+		PO_NavView.checkElement(driver, "text",
+				PO_NavView.getP().getString("nav.message.users", language));
+		
+		List<WebElement> elementos;
+		
+		// Pinchamos en la opción de menú de amigos
+		elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'friends-menu')]/a");
+		elementos.get(0).click();
+		// Pinchamos en la opción de lista de amigos.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/friend/list')]");
+		elementos.get(0).click();
+		// Miramos que estamos en la vista de amigos
+		PO_View.checkKey(driver, "friends.title", language);
+		
+		// Pinchamos en la opción de menu de invitaciones
+		elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'invitations-menu')]/a");
+		elementos.get(0).click();
+		// Pinchamos en la opción de lista de amigos.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/invitation/list')]");
+		elementos.get(0).click();
+		// Miramos que estamos en la vista de amigos
+		PO_View.checkKey(driver, "invitations.title", language);
+		
+		// Nos desconectamos
+		PO_PrivateView.logout(driver);
+	}
 
 }
