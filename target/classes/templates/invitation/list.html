@@ -9,7 +9,7 @@
 		<p>
 			<span th:text="#{invitations.message.invitations}" th:inline="text"></span>
 		</p>
-		<div th:replace="fragments/tableinvitations" id="tableInvitations" />
+		<div th:replace="fragments/tableinvitations" th:fragment="tableInvitations" />
 		<footer th:replace="fragments/pagination"/>
 	</div>
 	<footer th:replace="fragments/footer" />
