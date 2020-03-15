@@ -305,7 +305,8 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		PO_NavView.checkElement(driver, "text",
 				PO_NavView.getP().getString("nav.message.users", PO_Properties.getSPANISH()));
 		// Mandamos una invitatión al usuario jaimito
-		List<WebElement> botones = PO_View.checkElement(driver, "free","/html/body/div[1]/div[1]/table/tbody/tr[td[contains(text(), 'jaimitosdi@uniovi.es')]]/td[4]/div/button");
+		List<WebElement> botones = PO_View.checkElement(driver, "free",
+				"/html/body/div[1]/div[1]/table/tbody/tr[td[contains(text(), 'jaimitosdi@uniovi.es')]]/td[4]/div/button");
 		botones.get(0).click();
 		// Nos desconectamos
 		PO_PrivateView.logout(driver);
@@ -419,8 +420,8 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		// Nos desconectamos
 		PO_PrivateView.logout(driver);
 	}
-	
-	// PR20. Visualizar al menos cuatro páginas en Español/Inglés/Español 
+
+	// PR20. Visualizar al menos cuatro páginas en Español/Inglés/Español
 	@Test
 	public void PR20() {
 		// Hacemos las comprobaciones en español
@@ -435,21 +436,30 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		pr20checks(PO_Properties.getSPANISH());
 	}
 
+	// PR21. Intentar acceder sin estar autenticado a la opción de listado de usuarios. Se deberá volver al
+	//       formulario de login
+	@Test
+	public void PR21() {
+		// Intentamos acceder al listado de usuarios
+		driver.get(URL+"/user/list");
+		// Comprobamos que estamos en el login
+		PO_View.checkKey(driver, "login.title", PO_Properties.getSPANISH());
+	}
+
 	private void pr20checks(int language) {
 		// Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-		
+
 		// Comprobamos que estamos en el login
 		PO_View.checkKey(driver, "login.title", language);
 		// Rellenamos el formulario
 		PO_LoginView.fillForm(driver, "max@arcadia.com", "123456");
-		
+
 		// Comprobamos que entramos en la pagina privada del usuario
-		PO_NavView.checkElement(driver, "text",
-				PO_NavView.getP().getString("nav.message.users", language));
-		
+		PO_NavView.checkElement(driver, "text", PO_NavView.getP().getString("nav.message.users", language));
+
 		List<WebElement> elementos;
-		
+
 		// Pinchamos en la opción de menú de amigos
 		elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'friends-menu')]/a");
 		elementos.get(0).click();
@@ -458,7 +468,7 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		elementos.get(0).click();
 		// Miramos que estamos en la vista de amigos
 		PO_View.checkKey(driver, "friends.title", language);
-		
+
 		// Pinchamos en la opción de menu de invitaciones
 		elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'invitations-menu')]/a");
 		elementos.get(0).click();
@@ -467,7 +477,7 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		elementos.get(0).click();
 		// Miramos que estamos en la vista de amigos
 		PO_View.checkKey(driver, "invitations.title", language);
-		
+
 		// Nos desconectamos
 		PO_PrivateView.logout(driver);
 	}
