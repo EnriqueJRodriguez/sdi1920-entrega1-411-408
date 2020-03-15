@@ -305,8 +305,7 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		PO_NavView.checkElement(driver, "text",
 				PO_NavView.getP().getString("nav.message.users", PO_Properties.getSPANISH()));
 		// Mandamos una invitatión al usuario jaimito
-		List<WebElement> botones = PO_View.checkElement(driver, "free",
-				"//td[contains(text(), 'jaimitosdi@uniovi.es')]/following-sibling::*/btn[contains(@href, '/user/{id}/invitation/send')]");
+		List<WebElement> botones = PO_View.checkElement(driver, "free","/html/body/div[1]/div[1]/table/tbody/tr[td[contains(text(), 'jaimitosdi@uniovi.es')]]/td[4]/div/button");
 		botones.get(0).click();
 		// Nos desconectamos
 		PO_PrivateView.logout(driver);
@@ -322,6 +321,8 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		elementos.get(0).click();
 		// Comprobamos que tenemos una invitación de amistad
 		PO_NavView.checkElement(driver, "text", "pepitosdi@uniovi.es");
+		// Nos desconectamos
+		PO_PrivateView.logout(driver);
 	}
 
 	// PR16. Desde el listado de usuarios de la aplicación,enviar una invitación de
@@ -334,13 +335,22 @@ public class Sdi1920Entrega1411408ApplicationTests {
 		PO_LoginView.fillForm(driver, "pepitosdi@uniovi.es", "123456");
 		// Comprobamos que entramos en la pagina privada del usuario
 		PO_NavView.checkElement(driver, "text",
+					PO_NavView.getP().getString("nav.message.users", PO_Properties.getSPANISH()));
+		// Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "pepitosdi@uniovi.es", "123456");
+		// Comprobamos que entramos en la pagina privada del usuario
+		PO_NavView.checkElement(driver, "text",
 				PO_NavView.getP().getString("nav.message.users", PO_Properties.getSPANISH()));
 		// Mandamos una invitatión a la usuario Max
 		List<WebElement> botones = PO_View.checkElement(driver, "free",
-				"//td[contains(text(), 'max@arcadia.com')]/following-sibling::*/button[contains(@href, '/user/{id}/invitation/send')]");
+				"/html/body/div[1]/div[1]/table/tbody/tr[td[contains(text(), 'max@arcadia.com')]]/td[4]/div/button");
 		// Comprobamos que el botón no se muestra ya que existe una invitación
 		// entre éstos dos usuarios
 		assertEquals(true, botones.isEmpty());
+		// Nos desconectamos
+				PO_PrivateView.logout(driver);
 	}
 
 	// PR17. Mostrar el listado de invitaciones de amistad recibidas
