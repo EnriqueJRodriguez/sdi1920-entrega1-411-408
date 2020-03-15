@@ -19,16 +19,19 @@ public class User {
 	private String lastName;
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "receiver")
-    private Set<Invitation> InvitationRequestsTo = new HashSet<>();
+    private Set<Invitation> invitationRequestsTo = new HashSet<>();
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "sender")
-    private Set<Invitation> InvitationRequestsOf = new HashSet<>();
+    private Set<Invitation> invitationRequestsOf = new HashSet<>();
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user1")
-    private Set<Friendship> FriendshipTo = new HashSet<>();
+    private Set<Friendship> friendshipTo = new HashSet<>();
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user2")
-    private Set<Friendship> FriendshipOf = new HashSet<>();
+    private Set<Friendship> friendshipOf = new HashSet<>();
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "author")
+    private Set<Publication> publications = new HashSet<>();
 	
 
 	private String role;
@@ -102,6 +105,46 @@ public class User {
 
 	public void setPasswordConfirm(String passwordConfirm) {
 		this.passwordConfirm = passwordConfirm;
+	}
+
+	public Set<Invitation> getInvitationRequestsTo() {
+		return invitationRequestsTo;
+	}
+
+	public void setInvitationRequestsTo(Set<Invitation> invitationRequestsTo) {
+		this.invitationRequestsTo = invitationRequestsTo;
+	}
+
+	public Set<Invitation> getInvitationRequestsOf() {
+		return invitationRequestsOf;
+	}
+
+	public void setInvitationRequestsOf(Set<Invitation> invitationRequestsOf) {
+		this.invitationRequestsOf = invitationRequestsOf;
+	}
+
+	public Set<Friendship> getFriendshipTo() {
+		return friendshipTo;
+	}
+
+	public void setFriendshipTo(Set<Friendship> friendshipTo) {
+		this.friendshipTo = friendshipTo;
+	}
+
+	public Set<Friendship> getFriendshipOf() {
+		return friendshipOf;
+	}
+
+	public void setFriendshipOf(Set<Friendship> friendshipOf) {
+		this.friendshipOf = friendshipOf;
+	}
+
+	public Set<Publication> getPublications() {
+		return publications;
+	}
+
+	public void setPublications(Set<Publication> publications) {
+		this.publications = publications;
 	}
 
 }

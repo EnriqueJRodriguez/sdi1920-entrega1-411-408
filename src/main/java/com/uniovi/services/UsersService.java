@@ -79,4 +79,11 @@ public class UsersService {
 		invitation.setReceiver(user);
 		invitationService.addInvitation(invitation);
 	}
+
+	public Page<User> getUsersForListingAdmin(Pageable pageable, User user) {
+		return new PageImpl<User>(getUsers(pageable)
+				.stream()
+				.filter(us -> !us.getEmail().equals(user.getEmail()))
+				.collect(Collectors.toList()));
+	}
 }

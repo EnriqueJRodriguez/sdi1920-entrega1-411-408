@@ -42,7 +42,8 @@ public class UsersController {
 	private SignUpFormValidator signUpFormValidator;
 
 	@RequestMapping("/user/list")
-	public String getListado(Model model, Pageable pageable, @RequestParam(value = "", required = false) String searchText) {
+	public String getListado(Model model, Pageable pageable,
+			@RequestParam(value = "", required = false) String searchText) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		User activeUser = usersService.getUserByEmail(email);
@@ -50,12 +51,14 @@ public class UsersController {
 		if (searchText != null && !searchText.isEmpty()) {
 			Page<User> users = usersService.getUsersByNamesOrEmailUser(pageable, searchText, activeUser);
 			model.addAttribute("usersList", users.getContent());
-			model.addAttribute("invitations", invitationService.calculateInvitationsForUser(pageable, activeUser, users));
+			model.addAttribute("invitations",
+					invitationService.calculateInvitationsForUser(pageable, activeUser, users));
 			model.addAttribute("page", users);
 		} else {
 			Page<User> users = usersService.getUsersForListing(pageable, activeUser);
 			model.addAttribute("usersList", users.getContent());
-			model.addAttribute("invitations", invitationService.calculateInvitationsForUser(pageable, activeUser, users));
+			model.addAttribute("invitations",
+					invitationService.calculateInvitationsForUser(pageable, activeUser, users));
 			model.addAttribute("page", users);
 		}
 		return "user/list";
@@ -104,6 +107,20 @@ public class UsersController {
 		model.addAttribute("invitations", invitationService.calculateInvitationsForUser(pageable, user, users));
 		model.addAttribute("page", users);
 		return "user/list :: tableusers";
+	}
+
+	@RequestMapping("/user/all")
+	public String getListadoAllUsers(Model model, Pageable pageable) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+		User activeUser = usersService.getUserByEmail(email);
+
+		Page<User> users = usersService.getUsersForListingAdmin(pageable, activeUser);
+		model.addAttribute("usersList", users.getContent());
+		model.addAttribute("invitations", invitationService.calculateInvitationsForUser(pageable, activeUser, users));
+		model.addAttribute("page", users);
+
+		return "user/all";
 	}
 
 }
